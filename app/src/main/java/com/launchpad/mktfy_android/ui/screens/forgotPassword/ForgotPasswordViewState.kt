@@ -1,0 +1,10 @@
+package com.launchpad.mktfy_android.ui.screens.forgotPassword
+
+import com.launchpad.mktfy_android.models.LoadState
+
+data class ForgotPasswordViewState(
+    val email: String = "",
+    val verificationCode: String = "",
+    val verifyState: LoadState = LoadState.NONE,
+    val showEmailField: Boolean = true
+)
