@@ -1,9 +1,12 @@
 package com.launchpad.mktfy_android.ui.screens.login
 
+import com.launchpad.mktfy_android.models.LoadState
+
 sealed class LoginAction {
     data class UpdateEmail(val email: String): LoginAction()
     data class UpdatePassword(val password: String): LoginAction()
-    data class ShowPassword(val showPassword: Boolean): LoginAction()
+    data class UpdateLoginState(val LoadState: LoadState): LoginAction()
+    object ShowPassword: LoginAction()
     object Login: LoginAction()
     object NavigateHome: LoginAction()
     object NavigateForgotPassword: LoginAction()

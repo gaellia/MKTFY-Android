@@ -1,6 +1,5 @@
 package com.launchpad.mktfy_android.ui.screens.login
 
-import android.graphics.drawable.Icon
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
@@ -8,10 +7,10 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Icon
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Adb
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.Composable
@@ -20,19 +19,22 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.launchpad.mktfy_android.R
-import com.launchpad.mktfy_android.ui.theme.LightPurple
-import com.launchpad.mktfy_android.ui.theme.MKTFY_AndroidTheme
+import com.launchpad.mktfy_android.models.LoadState
+import com.launchpad.mktfy_android.ui.theme.*
 
 @Composable
 fun Login(
@@ -83,7 +85,7 @@ fun LoginContent(
         )
 
         val logoHeightFraction: Float by animateFloatAsState(
-            targetValue = if (viewState.showSplashScreen) 1f else 0.5f,
+            targetValue = if (viewState.showSplashScreen) 1f else 0.4f,
             animationSpec = tween(durationMillis = 1000, delayMillis = 2000)
         )
 
@@ -104,7 +106,8 @@ fun LoginContent(
 
         val visibilityIcon = if (viewState.showPassword) Icons.Filled.Visibility else Icons.Filled.VisibilityOff
         val visualTransformation = if (viewState.showPassword) VisualTransformation.None else PasswordVisualTransformation()
-
+        val borderColor = if (viewState.loginLoadState == LoadState.ERROR) ErrorColor else GrayBorderColor
+        val topPasswordPadding = if (viewState.loginLoadState == LoadState.ERROR) 5.dp else 24.dp
 
         //Splash
         Image(modifier = Modifier
@@ -142,25 +145,184 @@ fun LoginContent(
             .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            OutlinedTextField(
+            Text(modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp)
+                .padding(bottom = 10.dp),
+                text = "Email",
+                style = TextStyle.Default.copy(
+                    fontFamily = openSansFamily,
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 16.sp
+                ),
+                color = TitleBlack
+            )
+            OutlinedTextField(modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp),
+                value = viewState.email,
+                onValueChange = {newEmail -> actioner(LoginAction.UpdateEmail(newEmail))},
+                placeholder = {
+                    Text(
+                        text = "Insert your email",
+                        style = TextStyle.Default.copy(
+                            fontFamily = openSansFamily,
+                            fontWeight = FontWeight.Normal,
+                            fontSize = 15.sp
+                        )
+                    )
+                },
+                singleLine = true,
+                textStyle = TextStyle.Default.copy(
+                    fontFamily = openSansFamily
+                ),
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    textColor = Black,
+                    placeholderColor = Gray,
+                    unfocusedBorderColor = borderColor
+                ),
+                // TODO: For debugging purposes, remove later
+                trailingIcon = {
+                    Icon(
+                        Icons.Filled.Adb,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .clickable(
+                                onClick = {
+                                    if (viewState.loginLoadState == LoadState.NONE)
+                                        actioner(LoginAction.UpdateLoginState(LoadState.ERROR))
+                                    else
+                                        actioner(LoginAction.UpdateLoginState(LoadState.NONE))
+                                }
+                            )
+                    )
+                }
+            )
+
+            // Email error
+            if (viewState.loginLoadState == LoadState.ERROR) {
+                Text(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp),
+                    text = "Your email is incorrect",
+                    color = ErrorColor,
+                    style = TextStyle.Default.copy(
+                        fontFamily = openSansFamily,
+                        fontWeight = FontWeight.Normal,
+                        fontSize = 14.sp
+                    )
+                )
+            }
+
+            Text(modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp)
+                .padding(bottom = 10.dp, top = topPasswordPadding),
+                text = "Password",
+                style = TextStyle.Default.copy(
+                    fontFamily = openSansFamily,
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 16.sp
+                ),
+                color = TitleBlack
+            )
+            OutlinedTextField(modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp)
+                .padding(bottom = 10.dp),
                 value = viewState.password,
                 onValueChange = {newPassword -> actioner(LoginAction.UpdatePassword(newPassword))},
                 placeholder = {
-                    Text(text = "Insert your password")
+                    Text(
+                        text = "Insert your password",
+                        style = TextStyle.Default.copy(
+                            fontFamily = openSansFamily,
+                            fontWeight = FontWeight.Normal,
+                            fontSize = 16.sp
+                        )
+                    )
                 },
                 singleLine = true,
                 visualTransformation = visualTransformation,
+                textStyle = TextStyle.Default.copy(
+                    fontFamily = openSansFamily
+                ),
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    textColor = Black,
+                    placeholderColor = Gray,
+                    unfocusedBorderColor = GrayBorderColor
+                ),
                 trailingIcon = {
                     Icon(
                         visibilityIcon,
                         contentDescription = null,
                         modifier = Modifier
                             .clickable(
-                                onClick = {actioner(LoginAction.ShowPassword(viewState.showPassword))}
+                                onClick = {actioner(LoginAction.ShowPassword)}
                             )
                     )
                 }
             )
+
+            Text(modifier = Modifier
+                .align(Alignment.End)
+                .padding(horizontal = 15.dp)
+                .padding(bottom = 108.dp)
+                .clickable { actioner(LoginAction.NavigateForgotPassword) },
+                text = "I forgot my password",
+                style = TextStyle.Default.copy(
+                    fontFamily = openSansFamily,
+                    fontWeight = FontWeight.SemiBold,
+                    color = YellowOrange,
+                    textDecoration = TextDecoration.Underline,
+                    fontSize = 14.sp
+                )
+            )
+
+            Button(modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 15.dp)
+                .padding(bottom = 40.dp)
+                .height(64.dp),
+                onClick = { actioner(LoginAction.Login) },
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = YellowOrange,
+                    contentColor = Color.White
+                ),
+                shape = RoundedCornerShape(37.dp)
+            ) {
+                Text(
+                    text = "Login",
+                    style = TextStyle.Default.copy(
+                        fontFamily = openSansFamily,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 15.sp
+                    )
+                )
+
+            }
+
+            Button(modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 15.dp)
+                .padding(bottom = 15.dp)
+                .height(44.dp),
+                onClick = { actioner(LoginAction.NavigateCreateAccount) },
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = Color.White,
+                    contentColor = PurpleText
+                ),
+                shape = RoundedCornerShape(36.dp)
+            ) {
+                Text(
+                    text = "New in the app? Create an account!",
+                    style = TextStyle.Default.copy(
+                        fontFamily = openSansFamily,
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 14.sp
+                    )
+                )
+            }
         }
 
 
