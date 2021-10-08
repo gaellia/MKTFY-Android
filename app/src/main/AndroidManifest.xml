@@ -11,6 +11,7 @@
         android:theme="@style/Theme.MKTFY_Android">
         <activity
             android:name=".MainActivity"
+            android:windowSoftInputMode="adjustPan"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.MKTFY_Android.NoActionBar">

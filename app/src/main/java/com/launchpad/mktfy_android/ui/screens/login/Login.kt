@@ -8,6 +8,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Adb
@@ -22,6 +23,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -109,6 +111,8 @@ fun LoginContent(
         val borderColor = if (viewState.loginLoadState == LoadState.ERROR) ErrorColor else GrayBorderColor
         val topPasswordPadding = if (viewState.loginLoadState == LoadState.ERROR) 5.dp else 24.dp
 
+        val focusManager = LocalFocusManager.current
+
         //Splash
         Image(modifier = Modifier
             .alpha(backgroundAlpha)
@@ -155,7 +159,7 @@ fun LoginContent(
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 16.sp
                 ),
-                color = TitleBlack
+                color = BlackTitle
             )
             OutlinedTextField(modifier = Modifier
                 .fillMaxWidth()
@@ -196,7 +200,8 @@ fun LoginContent(
                                 }
                             )
                     )
-                }
+                },
+                keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() })
             )
 
             // Email error
@@ -224,7 +229,7 @@ fun LoginContent(
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 16.sp
                 ),
-                color = TitleBlack
+                color = BlackTitle
             )
             OutlinedTextField(modifier = Modifier
                 .fillMaxWidth()
@@ -261,7 +266,8 @@ fun LoginContent(
                                 onClick = {actioner(LoginAction.ShowPassword)}
                             )
                     )
-                }
+                },
+                keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() })
             )
 
             Text(modifier = Modifier
@@ -310,7 +316,7 @@ fun LoginContent(
                 onClick = { actioner(LoginAction.NavigateCreateAccount) },
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = Color.White,
-                    contentColor = PurpleText
+                    contentColor = DarkerPurple
                 ),
                 shape = RoundedCornerShape(36.dp)
             ) {
