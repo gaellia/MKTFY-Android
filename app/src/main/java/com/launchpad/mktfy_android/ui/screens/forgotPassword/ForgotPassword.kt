@@ -30,11 +30,9 @@ import com.launchpad.mktfy_android.ui.theme.*
 @Composable
 fun ForgotPassword(
     navigateBack: () -> Unit,
-    navigateResetPassword: () -> Unit
 ) {
     ForgotPasswordState(
         navigateBack = navigateBack,
-        navigateResetPassword = navigateResetPassword
     )
 }
 
@@ -42,7 +40,6 @@ fun ForgotPassword(
 fun ForgotPasswordState(
     ForgotPasswordViewModel: ForgotPasswordViewModel = viewModel(),
     navigateBack: () -> Unit,
-    navigateResetPassword: () -> Unit
 ) {
     val viewState by ForgotPasswordViewModel.state.collectAsState()
     ForgotPasswordContent(
@@ -50,7 +47,6 @@ fun ForgotPasswordState(
         actioner = { action ->
             when(action) {
                 ForgotPasswordAction.NavigateBack -> navigateBack()
-                ForgotPasswordAction.NavigateResetPassword -> navigateResetPassword()
                 else -> ForgotPasswordViewModel.collectAction(action)
             }
         }

@@ -6,5 +6,4 @@ sealed class ForgotPasswordAction {
     data class UpdateEmail(val email: String): ForgotPasswordAction()
     data class UpdateEmailState(val LoadState: LoadState): ForgotPasswordAction()
     object NavigateBack: ForgotPasswordAction()
-    object NavigateResetPassword: ForgotPasswordAction()
 }

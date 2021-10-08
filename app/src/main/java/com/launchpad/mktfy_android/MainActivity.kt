@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.launchpad.mktfy_android.ui.screens.createAccount.CreateAccount
 import com.launchpad.mktfy_android.ui.screens.forgotPassword.ForgotPassword
 import com.launchpad.mktfy_android.ui.screens.login.Login
 import com.launchpad.mktfy_android.ui.theme.MKTFY_AndroidTheme
@@ -32,13 +33,18 @@ fun MKTFYApp() {
                     Login(
                         navigateHome = {},
                         navigateForgotPassword = {navController.navigate("forgotPassword")},
-                        navigateCreateAccount = {}
+                        navigateCreateAccount = {navController.navigate(("createAccount"))}
                     )
                 }
                 composable("forgotPassword") {
                     ForgotPassword(
-                        navigateBack = {navController.popBackStack()},
-                        navigateResetPassword = {}
+                        navigateBack = {navController.popBackStack()}
+                    )
+                }
+                composable("createAccount") {
+                    CreateAccount(
+                        navigateBack =  {navController.popBackStack()},
+                        navigateHome = {}
                     )
                 }
             }

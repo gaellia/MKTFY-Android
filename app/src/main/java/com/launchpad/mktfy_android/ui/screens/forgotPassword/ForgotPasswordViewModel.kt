@@ -9,7 +9,6 @@ class ForgotPasswordViewModel: ActionViewModel<ForgotPasswordViewState, ForgotPa
             is ForgotPasswordAction.UpdateEmail -> updateEmail(action.email)
             is ForgotPasswordAction.UpdateEmailState -> {}
             ForgotPasswordAction.NavigateBack -> { }
-            ForgotPasswordAction.NavigateResetPassword -> {}
         }
     }
 
