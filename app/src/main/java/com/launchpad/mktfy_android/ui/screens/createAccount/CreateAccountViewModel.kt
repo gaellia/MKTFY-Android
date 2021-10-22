@@ -1,6 +1,7 @@
 package com.launchpad.mktfy_android.ui.screens.createAccount
 
 
+import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.viewModelScope
 import com.launchpad.mktfy_android.core.ActionViewModel
 
@@ -48,7 +49,7 @@ class CreateAccountViewModel: ActionViewModel<CreateAccountViewState, CreateAcco
         viewModelScope.launchSetState { copy(password = v) }
     }
     fun updatePhone(v: String) {
-        if (v.length <= 10) {
+        if (v.length <= 10 && v.isDigitsOnly()) {
             viewModelScope.launchSetState { copy(phone = v) }
         }
     }
