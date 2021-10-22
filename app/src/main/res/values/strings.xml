@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">MKTFY_Android</string>
+    <string name="your_email_is_incorrect">Your email is incorrect</string>
+    <string name="email">Email</string>
+    <string name="insert_your_email">Insert your email</string>
+    <string name="password">Password</string>
+    <string name="insert_your_password">Insert your password</string>
+    <string name="i_forgot_my_password">I forgot my password</string>
+    <string name="login">Login</string>
+    <string name="new_in_the_app_create_an_account">New in the app? Create an account!</string>
+    <string name="forgot_password">Forgot Password</string>
+    <string name="enter_email_send_code">Please enter your email so that we can send you a verification code to reset your password.</string>
+    <string name="send">Send</string>
+    <string name="create_account">Create Account</string>
 </resources>

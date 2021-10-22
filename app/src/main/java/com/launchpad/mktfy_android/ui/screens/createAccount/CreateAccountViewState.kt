@@ -8,9 +8,11 @@ data class CreateAccountViewState(
     val email: String = "",
     val phone: String = "",
     val country: String = "",
+    val province: String = "",
     val city: String = "",
     val address: String = "",
     val password: String = "",
+    val confirmPassword: String = "",
     val createAccountLoadState: LoadState = LoadState.NONE,
     val showCreatePasswordScreen: Boolean = false
 )

@@ -10,9 +10,12 @@ sealed class CreateAccountAction {
     data class UpdatePhone(val phone: String): CreateAccountAction()
     data class UpdateCountry(val country: String): CreateAccountAction()
     data class UpdateCity(val city: String): CreateAccountAction()
+    data class UpdateProvince(val province: String): CreateAccountAction()
     data class UpdateAddress(val address: String): CreateAccountAction()
     data class UpdatePassword(val password: String): CreateAccountAction()
+    data class UpdateConfirmPassword(val confirmPassword: String): CreateAccountAction()
     object ShowCreatePasswordScreen: CreateAccountAction()
+    object HideCreatePasswordScreen: CreateAccountAction()
     object NavigateBack: CreateAccountAction()
     object NavigateHome: CreateAccountAction()
 }

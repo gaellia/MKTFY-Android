@@ -17,6 +17,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.launchpad.mktfy_android.R
 import com.launchpad.mktfy_android.models.LoadState
+import com.launchpad.mktfy_android.ui.components.Header
 import com.launchpad.mktfy_android.ui.theme.*
 
 @Composable
@@ -63,32 +65,10 @@ fun ForgotPasswordContent(
     ) {
 
         // Header
-        Box(modifier = Modifier
-            .fillMaxWidth()
-            .height(71.dp)
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.icon_back),
-                contentDescription = "Back",
-                tint = Color.Unspecified,
-                modifier = Modifier
-                    .align(Alignment.BottomStart)
-                    .padding(bottom = 15.dp, start = 15.dp)
-                    .size(24.dp)
-                    .clickable { actioner(ForgotPasswordAction.NavigateBack) },
-            )
-            Text(modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(bottom = 16.dp),
-                text = "Forgot Password",
-                style = TextStyle.Default.copy(
-                    fontFamily = openSansFamily,
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 16.sp,
-                    color = LightPurple
-                )
-            )
-        }
+        Header(
+            text = stringResource(id = R.string.forgot_password),
+            navigateBack = { actioner(ForgotPasswordAction.NavigateBack) }
+        )
 
         val borderColor = if (viewState.emailState == LoadState.ERROR) ErrorColor else GrayBorderColor
         val emailFieldBottomPadding = if (viewState.emailState == LoadState.ERROR) 0.dp else 122.dp
@@ -98,11 +78,12 @@ fun ForgotPasswordContent(
         // Main Content
         Box(modifier = Modifier
             .fillMaxSize()
-            .clip(
-                RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp)
+            .background(color = Color.White)
+            .background(
+                color = LightGrayBackground,
+                shape = RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp)
             )
-            .background(LightGrayBackground)
-            .verticalScroll(rememberScrollState())
+            .verticalScroll(rememberScrollState()),
         ) {
             Column(modifier = Modifier
                 .fillMaxSize()
@@ -124,7 +105,7 @@ fun ForgotPasswordContent(
                     modifier = Modifier
                         .padding(bottom = 32.dp)
                         .padding(horizontal = 20.dp),
-                    text = "Please enter your email so that we can send you a verification code to reset your password.",
+                    text = stringResource(R.string.enter_email_send_code),
                     style = TextStyle.Default.copy(
                         fontFamily = openSansFamily,
                         fontWeight = FontWeight.Normal,
@@ -138,7 +119,7 @@ fun ForgotPasswordContent(
                         .padding(bottom = 10.dp)
                         .padding(horizontal = 20.dp)
                         .fillMaxWidth(),
-                    text = "Email",
+                    text = stringResource(R.string.email),
                     style = TextStyle.Default.copy(
                         fontFamily = openSansFamily,
                         fontWeight = FontWeight.SemiBold,
@@ -156,7 +137,7 @@ fun ForgotPasswordContent(
                     onValueChange = { newEmail -> actioner(ForgotPasswordAction.UpdateEmail(newEmail)) },
                     placeholder = {
                         Text(
-                            text = "Insert your email",
+                            text = stringResource(R.string.insert_your_email),
                             style = TextStyle.Default.copy(
                                 fontFamily = openSansFamily,
                                 fontWeight = FontWeight.Normal,
@@ -166,7 +147,8 @@ fun ForgotPasswordContent(
                     },
                     singleLine = true,
                     textStyle = TextStyle.Default.copy(
-                        fontFamily = openSansFamily
+                        fontFamily = openSansFamily,
+                        fontSize = 16.sp
                     ),
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         textColor = Black,
@@ -184,7 +166,7 @@ fun ForgotPasswordContent(
                             .fillMaxWidth()
                             .padding(horizontal = 20.dp)
                             .padding(bottom = 103.dp),
-                        text = "Your email is incorrect",
+                        text = stringResource(R.string.your_email_is_incorrect),
                         color = ErrorColor,
                         style = TextStyle.Default.copy(
                             fontFamily = openSansFamily,
@@ -208,7 +190,7 @@ fun ForgotPasswordContent(
                     onClick = { /*TODO: Send email loading screen*/ }
                 ) {
                     Text(
-                        text = "Send",
+                        text = stringResource(R.string.send),
                         style = TextStyle.Default.copy(
                             fontFamily = openSansFamily,
                             fontWeight = FontWeight.Bold,

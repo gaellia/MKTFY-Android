@@ -5,6 +5,7 @@ import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -25,6 +26,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -79,6 +81,7 @@ fun LoginContent(
 ) {
     Box(modifier = Modifier
         .fillMaxSize()
+        .background(color = Color.White)
     ) {
 
         val backgroundAlpha: Float by animateFloatAsState(
@@ -153,7 +156,7 @@ fun LoginContent(
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp)
                 .padding(bottom = 10.dp),
-                text = "Email",
+                text = stringResource(R.string.email),
                 style = TextStyle.Default.copy(
                     fontFamily = openSansFamily,
                     fontWeight = FontWeight.SemiBold,
@@ -168,7 +171,7 @@ fun LoginContent(
                 onValueChange = {newEmail -> actioner(LoginAction.UpdateEmail(newEmail))},
                 placeholder = {
                     Text(
-                        text = "Insert your email",
+                        text = stringResource(R.string.insert_your_email),
                         style = TextStyle.Default.copy(
                             fontFamily = openSansFamily,
                             fontWeight = FontWeight.Normal,
@@ -178,7 +181,8 @@ fun LoginContent(
                 },
                 singleLine = true,
                 textStyle = TextStyle.Default.copy(
-                    fontFamily = openSansFamily
+                    fontFamily = openSansFamily,
+                    fontSize = 16.sp
                 ),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     textColor = Black,
@@ -190,6 +194,7 @@ fun LoginContent(
                     Icon(
                         Icons.Filled.Adb,
                         contentDescription = null,
+                        tint = GrayIconColor,
                         modifier = Modifier
                             .clickable(
                                 onClick = {
@@ -209,7 +214,7 @@ fun LoginContent(
                 Text(modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp),
-                    text = "Your email is incorrect",
+                    text = stringResource(R.string.your_email_is_incorrect),
                     color = ErrorColor,
                     style = TextStyle.Default.copy(
                         fontFamily = openSansFamily,
@@ -223,7 +228,7 @@ fun LoginContent(
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp)
                 .padding(bottom = 10.dp, top = topPasswordPadding),
-                text = "Password",
+                text = stringResource(R.string.password),
                 style = TextStyle.Default.copy(
                     fontFamily = openSansFamily,
                     fontWeight = FontWeight.SemiBold,
@@ -239,7 +244,7 @@ fun LoginContent(
                 onValueChange = {newPassword -> actioner(LoginAction.UpdatePassword(newPassword))},
                 placeholder = {
                     Text(
-                        text = "Insert your password",
+                        text = stringResource(R.string.insert_your_password),
                         style = TextStyle.Default.copy(
                             fontFamily = openSansFamily,
                             fontWeight = FontWeight.Normal,
@@ -250,7 +255,8 @@ fun LoginContent(
                 singleLine = true,
                 visualTransformation = visualTransformation,
                 textStyle = TextStyle.Default.copy(
-                    fontFamily = openSansFamily
+                    fontFamily = openSansFamily,
+                    fontSize = 16.sp
                 ),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     textColor = Black,
@@ -261,6 +267,7 @@ fun LoginContent(
                     Icon(
                         visibilityIcon,
                         contentDescription = null,
+                        tint = GrayIconColor,
                         modifier = Modifier
                             .clickable(
                                 onClick = {actioner(LoginAction.ShowPassword)}
@@ -275,7 +282,7 @@ fun LoginContent(
                 .padding(horizontal = 15.dp)
                 .padding(bottom = 108.dp)
                 .clickable { actioner(LoginAction.NavigateForgotPassword) },
-                text = "I forgot my password",
+                text = stringResource(R.string.i_forgot_my_password),
                 style = TextStyle.Default.copy(
                     fontFamily = openSansFamily,
                     fontWeight = FontWeight.SemiBold,
@@ -298,7 +305,7 @@ fun LoginContent(
                 shape = RoundedCornerShape(37.dp)
             ) {
                 Text(
-                    text = "Login",
+                    text = stringResource(R.string.login),
                     style = TextStyle.Default.copy(
                         fontFamily = openSansFamily,
                         fontWeight = FontWeight.Bold,
@@ -321,7 +328,7 @@ fun LoginContent(
                 shape = RoundedCornerShape(36.dp)
             ) {
                 Text(
-                    text = "New in the app? Create an account!",
+                    text = stringResource(R.string.new_in_the_app_create_an_account),
                     style = TextStyle.Default.copy(
                         fontFamily = openSansFamily,
                         fontWeight = FontWeight.SemiBold,
