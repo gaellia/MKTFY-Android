@@ -3,6 +3,7 @@ package com.launchpad.mktfy_android
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
@@ -15,6 +16,7 @@ import com.launchpad.mktfy_android.ui.screens.login.Login
 import com.launchpad.mktfy_android.ui.theme.MKTFY_AndroidTheme
 
 class MainActivity : ComponentActivity() {
+    @ExperimentalAnimationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -23,6 +25,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@ExperimentalAnimationApi
 @Composable
 fun MKTFYApp() {
     MKTFY_AndroidTheme() {
@@ -44,7 +47,9 @@ fun MKTFYApp() {
                 composable("createAccount") {
                     CreateAccount(
                         navigateBack =  {navController.popBackStack()},
-                        navigateHome = {}
+                        navigateHome = {},
+                        navigateTOS = {},
+                        navigatePP = {}
                     )
                 }
             }

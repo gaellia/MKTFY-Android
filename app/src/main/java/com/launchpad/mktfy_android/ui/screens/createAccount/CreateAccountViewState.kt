@@ -14,5 +14,13 @@ data class CreateAccountViewState(
     val password: String = "",
     val confirmPassword: String = "",
     val createAccountLoadState: LoadState = LoadState.NONE,
-    val showCreatePasswordScreen: Boolean = false
+    val showCreatePasswordScreen: Boolean = false,
+
+    val atLeastSixChars: Boolean = false,
+    val hasOneUppercase: Boolean = false,
+    val hasOneNumber: Boolean = false,
+    val isChecked: Boolean = false,
+
+    val showPassword: Boolean = false,
+    val showConfirmPassword: Boolean = false
 )

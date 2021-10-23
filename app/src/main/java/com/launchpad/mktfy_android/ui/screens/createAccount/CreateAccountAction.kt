@@ -2,6 +2,7 @@ package com.launchpad.mktfy_android.ui.screens.createAccount
 
 import com.launchpad.mktfy_android.models.LoadState
 import com.launchpad.mktfy_android.ui.screens.forgotPassword.ForgotPasswordAction
+import com.launchpad.mktfy_android.ui.screens.login.LoginAction
 
 sealed class CreateAccountAction {
     data class UpdateFirstName(val firstName: String): CreateAccountAction()
@@ -18,4 +19,11 @@ sealed class CreateAccountAction {
     object HideCreatePasswordScreen: CreateAccountAction()
     object NavigateBack: CreateAccountAction()
     object NavigateHome: CreateAccountAction()
+    object NavigateTOS: CreateAccountAction()
+    object NavigatePP: CreateAccountAction()
+
+    object ShowPassword: CreateAccountAction()
+    object ShowConfirmPassword: CreateAccountAction()
+
+    object UpdateTOSCheck: CreateAccountAction()
 }

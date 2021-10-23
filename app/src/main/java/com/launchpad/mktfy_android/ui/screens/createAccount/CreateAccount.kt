@@ -1,5 +1,6 @@
 package com.launchpad.mktfy_android.ui.screens.createAccount
 
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -7,13 +8,18 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -28,6 +34,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -44,11 +53,15 @@ import com.launchpad.mktfy_android.ui.theme.*
 @Composable
 fun CreateAccount(
     navigateBack: () -> Unit,
-    navigateHome: () -> Unit
+    navigateHome: () -> Unit,
+    navigateTOS: () -> Unit,
+    navigatePP: () -> Unit
 ) {
     CreateAccountState(
         navigateBack = navigateBack,
-        navigateHome = navigateHome
+        navigateHome = navigateHome,
+        navigateTOS = navigateTOS,
+        navigatePP = navigatePP
     )
 }
 
@@ -57,7 +70,9 @@ fun CreateAccount(
 fun CreateAccountState(
     CreateAccountViewModel: CreateAccountViewModel = viewModel(),
     navigateBack: () -> Unit,
-    navigateHome: () -> Unit
+    navigateHome: () -> Unit,
+    navigateTOS: () -> Unit,
+    navigatePP: () -> Unit
 ) {
     val viewState by CreateAccountViewModel.state.collectAsState()
     CreateAccountContent(
@@ -66,6 +81,8 @@ fun CreateAccountState(
             when(action) {
                 CreateAccountAction.NavigateBack -> navigateBack()
                 CreateAccountAction.NavigateHome -> navigateHome()
+                CreateAccountAction.NavigateTOS -> navigateTOS()
+                CreateAccountAction.NavigatePP -> navigatePP()
                 else -> CreateAccountViewModel.collectAction(action)
             }
         }
@@ -90,6 +107,8 @@ fun CreateAccountContent(
                     actioner(CreateAccountAction.HideCreatePasswordScreen)
             }
         )
+
+        val focusManager = LocalFocusManager.current
         // First Page
         AnimatedVisibility(visible = !viewState.showCreatePasswordScreen,
             enter = fadeIn(animationSpec = tween(durationMillis = 500)),
@@ -105,7 +124,6 @@ fun CreateAccountContent(
                     )
                     .verticalScroll(rememberScrollState()),
             ) {
-                val focusManager = LocalFocusManager.current
 
                 Text(
                     modifier = Modifier
@@ -568,68 +586,321 @@ fun CreateAccountContent(
                     onBack = { actioner(CreateAccountAction.HideCreatePasswordScreen) }
                 )
 
-                Text("The password must have at least 6 characters and must contain 1 uppercase and 1 number.")
+                val passwordVisibilityIcon = if (viewState.showPassword) Icons.Filled.Visibility else Icons.Filled.VisibilityOff
+                val passwordVisualTransformation = if (viewState.showPassword) VisualTransformation.None else PasswordVisualTransformation()
 
-                Text("Password")
-                OutlinedTextField(value = "Insert your password",
-                    onValueChange = { newPassword ->
-                        actioner(
-                            CreateAccountAction.UpdatePassword(
-                                newPassword
-                            )
-                        )
-                    }
+                val confirmPasswordVisibilityIcon = if (viewState.showConfirmPassword) Icons.Filled.Visibility else Icons.Filled.VisibilityOff
+                val confirmPasswordVisualTransformation = if (viewState.showConfirmPassword) VisualTransformation.None else PasswordVisualTransformation()
+                val confirmPasswordColor = if (viewState.createAccountLoadState == LoadState.ERROR) ErrorColor else BlackTitle
+                val visibilityIconColor = if (viewState.createAccountLoadState == LoadState.ERROR) RedIconColor else GrayIconColor
+                val borderColor = if (viewState.createAccountLoadState == LoadState.ERROR) ErrorColor else GrayBorderColor
+                val bottomConfirmPasswordPadding = if (viewState.createAccountLoadState == LoadState.ERROR) 0.dp else 26.dp
+
+                val lengthCheckColor = if (viewState.atLeastSixChars) LightPurple else UncheckedColor
+                val upperCheckColor = if (viewState.hasOneUppercase) LightPurple else UncheckedColor
+                val numCheckColor = if (viewState.hasOneNumber) LightPurple else UncheckedColor
+
+                val checkbox = if (viewState.isChecked) R.drawable.check_box_24px else R.drawable.check_box_empty
+
+                Text(
+                    modifier = Modifier
+                        .padding(top = 32.dp)
+                        .padding(horizontal = 20.dp),
+                    text = "The password must have at least 6 characters and must contain 1 uppercase and 1 number.",
+                    style = TextStyle.Default.copy(
+                        fontFamily = openSansFamily,
+                        fontWeight = FontWeight.Normal,
+                        fontSize = 14.sp,
+                        color = BlackText
+                    )
                 )
 
-                Text("Confirm Password")
-                OutlinedTextField(value = "Insert your password",
-                    onValueChange = { newConfirmPassword ->
-                        actioner(
-                            CreateAccountAction.UpdateConfirmPassword(
-                                newConfirmPassword
+                Text(
+                    buildAnnotatedString {
+                        append("Password")
+                        withStyle(style = if (viewState.atLeastSixChars && viewState.hasOneUppercase && viewState.hasOneNumber)
+                            SpanStyle(color = GreenText) else SpanStyle(color = OrangeText)
+                        ) {
+                            if (viewState.atLeastSixChars && viewState.hasOneUppercase && viewState.hasOneNumber)
+                                append("  Strong") else append("  Weak")
+                        }
+                    },
+                    style = TextStyle.Default.copy(
+                        fontFamily = openSansFamily,
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 16.sp,
+                        color = BlackTitle
+                    ),
+                    modifier = Modifier
+                        .padding(top = 32.dp)
+                        .padding(horizontal = 20.dp)
+                )
+                OutlinedTextField(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp)
+                    .padding(top = 10.dp),
+                    value = viewState.password,
+                    onValueChange = {newPassword -> actioner(CreateAccountAction.UpdatePassword(newPassword))},
+                    placeholder = {
+                        Text(
+                            text = stringResource(R.string.insert_your_password),
+                            style = TextStyle.Default.copy(
+                                fontFamily = openSansFamily,
+                                fontWeight = FontWeight.Normal,
+                                fontSize = 16.sp
                             )
                         )
-                    }
+                    },
+                    singleLine = true,
+                    visualTransformation = passwordVisualTransformation,
+                    textStyle = TextStyle.Default.copy(
+                        fontFamily = openSansFamily,
+                        fontSize = 16.sp
+                    ),
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        textColor = Black,
+                        placeholderColor = Gray,
+                        unfocusedBorderColor = GrayBorderColor
+                    ),
+                    trailingIcon = {
+                        Icon(
+                            passwordVisibilityIcon,
+                            contentDescription = null,
+                            tint = GrayIconColor,
+                            modifier = Modifier
+                                .clickable(
+                                    onClick = {actioner(CreateAccountAction.ShowPassword)}
+                                )
+                        )
+                    },
+                    keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() })
                 )
+
+                Text(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp)
+                    .padding(top = 20.dp),
+                    text = "Confirm Password",
+                    style = TextStyle.Default.copy(
+                        fontFamily = openSansFamily,
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 16.sp
+                    ),
+                    color = confirmPasswordColor
+                )
+                OutlinedTextField(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp)
+                    .padding(top = 10.dp, bottom = bottomConfirmPasswordPadding),
+                    value = viewState.confirmPassword,
+                    onValueChange = {newConfirmPassword -> actioner(CreateAccountAction.UpdateConfirmPassword(newConfirmPassword))},
+                    placeholder = {
+                        Text(
+                            text = stringResource(R.string.insert_your_password),
+                            style = TextStyle.Default.copy(
+                                fontFamily = openSansFamily,
+                                fontWeight = FontWeight.Normal,
+                                fontSize = 16.sp
+                            )
+                        )
+                    },
+                    singleLine = true,
+                    visualTransformation = confirmPasswordVisualTransformation,
+                    textStyle = TextStyle.Default.copy(
+                        fontFamily = openSansFamily,
+                        fontSize = 16.sp
+                    ),
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        textColor = Black,
+                        placeholderColor = Gray,
+                        unfocusedBorderColor = borderColor
+                    ),
+                    trailingIcon = {
+                        Icon(
+                            confirmPasswordVisibilityIcon,
+                            contentDescription = null,
+                            tint = visibilityIconColor,
+                            modifier = Modifier
+                                .clickable(
+                                    onClick = {actioner(CreateAccountAction.ShowConfirmPassword)}
+                                )
+                        )
+                    },
+                    keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() })
+                )
+
                 if (viewState.createAccountLoadState == LoadState.ERROR) {
-                    Text("Your password is incorrect")
-                }
-                Row() {
-                    Icon(
-                        painter = painterResource(id = R.drawable.icon_check_circle),
-                        tint = Color.Unspecified,
-                        contentDescription = null
+                    Text(modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 20.dp)
+                        .padding(bottom = 7.dp),
+                        text = "Your password is incorrect",
+                        color = ErrorColor,
+                        style = TextStyle.Default.copy(
+                            fontFamily = openSansFamily,
+                            fontWeight = FontWeight.Normal,
+                            fontSize = 14.sp
+                        )
                     )
-                    Text("At least 6 characters")
-                }
-                Row() {
-                    Icon(
-                        painter = painterResource(id = R.drawable.icon_check_circle),
-                        tint = Color.Unspecified,
-                        contentDescription = null
-                    )
-                    Text("1 Uppercase")
-                }
-                Row() {
-                    Icon(
-                        painter = painterResource(id = R.drawable.icon_check_circle),
-                        tint = Color.Unspecified,
-                        contentDescription = null
-                    )
-                    Text("1 Number")
                 }
 
-                Row() {
+                Row(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp)
+                ) {
                     Icon(
-                        painter = painterResource(id = R.drawable.check_box_empty),
-                        tint = Color.Unspecified,
-                        contentDescription = null
+                        painter = painterResource(id = R.drawable.icon_check_circle),
+                        tint = lengthCheckColor,
+                        contentDescription = null,
+                        modifier = Modifier.size(20.dp)
                     )
-                    Text("By checking this box, you agree to our Terms of service and our Privacy Policy")
+                    Text(
+                        modifier = Modifier
+                            .padding(start = 12.dp),
+                        text = "At least 6 characters",
+                        style = TextStyle.Default.copy(
+                            fontFamily = openSansFamily,
+                            fontWeight = FontWeight.Normal,
+                            fontSize = 16.sp,
+                            color = BlackText
+                        )
+                    )
+                }
+                Row(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp)
+                    .padding(top = 14.dp)
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.icon_check_circle),
+                        tint = upperCheckColor,
+                        contentDescription = null,
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Text(
+                        modifier = Modifier
+                            .padding(start = 12.dp),
+                        text = "1 Uppercase",
+                        style = TextStyle.Default.copy(
+                            fontFamily = openSansFamily,
+                            fontWeight = FontWeight.Normal,
+                            fontSize = 16.sp,
+                            color = BlackText
+                        )
+                    )
+                }
+                Row(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp)
+                    .padding(top = 14.dp)
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.icon_check_circle),
+                        tint = numCheckColor,
+                        contentDescription = null,
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Text(
+                        modifier = Modifier
+                            .padding(start = 12.dp),
+                        text = "1 Number",
+                        style = TextStyle.Default.copy(
+                            fontFamily = openSansFamily,
+                            fontWeight = FontWeight.Normal,
+                            fontSize = 16.sp,
+                            color = BlackText
+                        )
+                    )
                 }
 
-                Button(onClick = {}) {
-                    Text("Create My Account")
+                Row(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp)
+                    .padding(top = 179.dp)
+                ) {
+                    Icon(
+                        painter = painterResource(id = checkbox),
+                        tint = Color.Unspecified,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(30.dp)
+                            .clickable { actioner(CreateAccountAction.UpdateTOSCheck) }
+                    )
+                    val annotatedText = buildAnnotatedString {
+                        append("By checking this box, you agree to our ")
+
+                        pushStringAnnotation(tag = "TOS", annotation = "TOS")
+                        withStyle(style = SpanStyle(
+                            color = LightPurple,
+                            fontWeight = FontWeight.Bold,
+                            textDecoration = TextDecoration.Underline)
+                        ) {
+                            append("Terms of service")
+                        }
+                        pop()
+
+                        append(" and our ")
+
+                        pushStringAnnotation(tag = "PP", annotation = "PP")
+                        withStyle(style = SpanStyle(
+                            color = LightPurple,
+                            fontWeight = FontWeight.Bold,
+                            textDecoration = TextDecoration.Underline)
+                        ) {
+                            append("Privacy Policy")
+                        }
+                        pop()
+                    }
+
+                    ClickableText(
+                        text = annotatedText,
+                        onClick = { offset ->
+                            annotatedText.getStringAnnotations(
+                                start = offset,
+                                end = offset
+                            ).takeIf { it.isNotEmpty() }?.first()?.let { annotation ->
+                                when(annotation.tag) {
+                                    "TOS" -> { actioner(CreateAccountAction.NavigateTOS) }
+                                    "PP" -> { actioner(CreateAccountAction.NavigatePP) }
+                                }
+                            }
+                        },
+                        style = TextStyle.Default.copy(
+                            fontFamily = openSansFamily,
+                            fontWeight = FontWeight.Normal,
+                            fontSize = 14.sp,
+                            color = BlackText
+                        ),
+                        modifier = Modifier.padding(start = 10.dp)
+                    )
+                }
+
+                Button(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 20.dp)
+                        .padding(top = 32.dp, bottom = 13.dp)
+                        .height(51.dp),
+                    onClick = { actioner(CreateAccountAction.NavigateHome) },
+                    colors = ButtonDefaults.buttonColors(
+                        backgroundColor = DarkerPurple,
+                        contentColor = Color.White,
+                        disabledBackgroundColor = DisabledButtonColor,
+                        disabledContentColor = Color.White
+                    ),
+                    shape = RoundedCornerShape(37.dp),
+                    enabled = viewState.atLeastSixChars && viewState.hasOneUppercase
+                            && viewState.hasOneNumber && viewState.isChecked &&
+                            viewState.password == viewState.confirmPassword
+                ) {
+                    Text(
+                        text = "Create My Account",
+                        style = TextStyle.Default.copy(
+                            fontFamily = openSansFamily,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 14.sp
+                        )
+                    )
                 }
             }
         }
@@ -649,6 +920,15 @@ fun EnterEmailPreview() {
 @Preview (showBackground = true)
 @Composable
 fun CreateAccountPasswordPreview() {
+    MKTFY_AndroidTheme {
+        CreateAccountContent(CreateAccountViewState(showCreatePasswordScreen = true))
+    }
+}
+
+@ExperimentalAnimationApi
+@Preview (showBackground = true)
+@Composable
+fun CreateAccountPasswordErrorPreview() {
     MKTFY_AndroidTheme {
         CreateAccountContent(CreateAccountViewState(showCreatePasswordScreen = true, createAccountLoadState = LoadState.ERROR))
     }
