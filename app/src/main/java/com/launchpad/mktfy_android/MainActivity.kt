@@ -11,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.launchpad.mktfy_android.ui.screens.createAccount.CreateAccount
+import com.launchpad.mktfy_android.ui.screens.dashboard.Dashboard
 import com.launchpad.mktfy_android.ui.screens.forgotPassword.ForgotPassword
 import com.launchpad.mktfy_android.ui.screens.login.Login
 import com.launchpad.mktfy_android.ui.theme.MKTFY_AndroidTheme
@@ -34,9 +35,15 @@ fun MKTFYApp() {
             NavHost(navController = navController, startDestination = "login") {
                 composable("login") {
                     Login(
-                        navigateHome = {},
-                        navigateForgotPassword = {navController.navigate("forgotPassword")},
-                        navigateCreateAccount = {navController.navigate(("createAccount"))}
+                        navigateDash = {navController.navigate("dashboard"){
+                            popUpTo("login")
+                        } },
+                        navigateForgotPassword = {
+                            navController.navigate("forgotPassword") {
+                                restoreState = true
+                            }
+                         },
+                        navigateCreateAccount = {navController.navigate("createAccount")}
                     )
                 }
                 composable("forgotPassword") {
@@ -47,9 +54,18 @@ fun MKTFYApp() {
                 composable("createAccount") {
                     CreateAccount(
                         navigateBack =  {navController.popBackStack()},
-                        navigateHome = {},
+                        navigateDash = {navController.navigate("dashboard"){
+                            popUpTo("login")
+                        } },
                         navigateTOS = {},
                         navigatePP = {}
+                    )
+                }
+                composable("dashboard") {
+                    Dashboard(
+                        navigateMenu = {},
+                        navigateProductDetail = {},
+                        navigateCreateListing = {}
                     )
                 }
             }

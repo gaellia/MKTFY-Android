@@ -8,7 +8,7 @@ sealed class LoginAction {
     data class UpdateLoginState(val LoadState: LoadState): LoginAction()
     object ShowPassword: LoginAction()
     object Login: LoginAction()
-    object NavigateHome: LoginAction()
+    object NavigateDash: LoginAction()
     object NavigateForgotPassword: LoginAction()
     object NavigateCreateAccount: LoginAction()
 }

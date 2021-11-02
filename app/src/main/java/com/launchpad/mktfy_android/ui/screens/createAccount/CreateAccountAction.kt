@@ -18,7 +18,7 @@ sealed class CreateAccountAction {
     object ShowCreatePasswordScreen: CreateAccountAction()
     object HideCreatePasswordScreen: CreateAccountAction()
     object NavigateBack: CreateAccountAction()
-    object NavigateHome: CreateAccountAction()
+    object NavigateDash: CreateAccountAction()
     object NavigateTOS: CreateAccountAction()
     object NavigatePP: CreateAccountAction()
 

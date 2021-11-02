@@ -1,6 +1,5 @@
 package com.launchpad.mktfy_android.ui.screens.createAccount
 
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -43,23 +42,21 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.launchpad.mktfy_android.R
-import com.launchpad.mktfy_android.models.LoadState
 import com.launchpad.mktfy_android.models.PhoneNumberVisualTransformation
 import com.launchpad.mktfy_android.ui.components.Header
-import com.launchpad.mktfy_android.ui.screens.login.LoginAction
 import com.launchpad.mktfy_android.ui.theme.*
 
 @ExperimentalAnimationApi
 @Composable
 fun CreateAccount(
     navigateBack: () -> Unit,
-    navigateHome: () -> Unit,
+    navigateDash: () -> Unit,
     navigateTOS: () -> Unit,
     navigatePP: () -> Unit
 ) {
     CreateAccountState(
         navigateBack = navigateBack,
-        navigateHome = navigateHome,
+        navigateDash = navigateDash,
         navigateTOS = navigateTOS,
         navigatePP = navigatePP
     )
@@ -70,7 +67,7 @@ fun CreateAccount(
 fun CreateAccountState(
     CreateAccountViewModel: CreateAccountViewModel = viewModel(),
     navigateBack: () -> Unit,
-    navigateHome: () -> Unit,
+    navigateDash: () -> Unit,
     navigateTOS: () -> Unit,
     navigatePP: () -> Unit
 ) {
@@ -80,7 +77,7 @@ fun CreateAccountState(
         actioner = { action ->
             when(action) {
                 CreateAccountAction.NavigateBack -> navigateBack()
-                CreateAccountAction.NavigateHome -> navigateHome()
+                CreateAccountAction.NavigateDash -> navigateDash()
                 CreateAccountAction.NavigateTOS -> navigateTOS()
                 CreateAccountAction.NavigatePP -> navigatePP()
                 else -> CreateAccountViewModel.collectAction(action)
@@ -591,10 +588,10 @@ fun CreateAccountContent(
 
                 val confirmPasswordVisibilityIcon = if (viewState.showConfirmPassword) Icons.Filled.Visibility else Icons.Filled.VisibilityOff
                 val confirmPasswordVisualTransformation = if (viewState.showConfirmPassword) VisualTransformation.None else PasswordVisualTransformation()
-                val confirmPasswordColor = if (viewState.createAccountLoadState == LoadState.ERROR) ErrorColor else BlackTitle
-                val visibilityIconColor = if (viewState.createAccountLoadState == LoadState.ERROR) RedIconColor else GrayIconColor
-                val borderColor = if (viewState.createAccountLoadState == LoadState.ERROR) ErrorColor else GrayBorderColor
-                val bottomConfirmPasswordPadding = if (viewState.createAccountLoadState == LoadState.ERROR) 0.dp else 26.dp
+                val confirmPasswordColor = if (viewState.createAccountErrorState) ErrorColor else BlackTitle
+                val visibilityIconColor = if (viewState.createAccountErrorState) RedIconColor else GrayIconColor
+                val borderColor = if (viewState.createAccountErrorState) ErrorColor else GrayBorderColor
+                val bottomConfirmPasswordPadding = if (viewState.createAccountErrorState) 0.dp else 26.dp
 
                 val lengthCheckColor = if (viewState.atLeastSixChars) LightPurple else UncheckedColor
                 val upperCheckColor = if (viewState.hasOneUppercase) LightPurple else UncheckedColor
@@ -729,7 +726,7 @@ fun CreateAccountContent(
                     keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() })
                 )
 
-                if (viewState.createAccountLoadState == LoadState.ERROR) {
+                if (viewState.createAccountErrorState) {
                     Text(modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 20.dp)
@@ -881,7 +878,7 @@ fun CreateAccountContent(
                         .padding(horizontal = 20.dp)
                         .padding(top = 32.dp, bottom = 13.dp)
                         .height(51.dp),
-                    onClick = { actioner(CreateAccountAction.NavigateHome) },
+                    onClick = { actioner(CreateAccountAction.NavigateDash) },
                     colors = ButtonDefaults.buttonColors(
                         backgroundColor = DarkerPurple,
                         contentColor = Color.White,
@@ -930,6 +927,6 @@ fun CreateAccountPasswordPreview() {
 @Composable
 fun CreateAccountPasswordErrorPreview() {
     MKTFY_AndroidTheme {
-        CreateAccountContent(CreateAccountViewState(showCreatePasswordScreen = true, createAccountLoadState = LoadState.ERROR))
+        CreateAccountContent(CreateAccountViewState(showCreatePasswordScreen = true, createAccountErrorState = true))
     }
 }

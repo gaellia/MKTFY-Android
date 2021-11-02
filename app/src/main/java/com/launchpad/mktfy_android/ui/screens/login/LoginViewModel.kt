@@ -10,7 +10,7 @@ class LoginViewModel: ActionViewModel<LoginViewState, LoginAction>(LoginViewStat
             LoginAction.Login -> { }
             LoginAction.NavigateCreateAccount -> { }
             LoginAction.NavigateForgotPassword -> { }
-            LoginAction.NavigateHome -> { }
+            LoginAction.NavigateDash -> { }
             is LoginAction.UpdateEmail -> updateEmail(action.email)
             is LoginAction.UpdatePassword -> updatePassword(action.password)
             LoginAction.ShowPassword -> toggleShowPassword()

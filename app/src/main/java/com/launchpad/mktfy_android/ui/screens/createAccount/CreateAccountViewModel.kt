@@ -11,7 +11,7 @@ class CreateAccountViewModel: ActionViewModel<CreateAccountViewState, CreateAcco
     override fun collectAction(action: CreateAccountAction) {
         when (action) {
             CreateAccountAction.NavigateBack -> { }
-            CreateAccountAction.NavigateHome -> { }
+            CreateAccountAction.NavigateDash -> { }
             CreateAccountAction.NavigateTOS -> { }
             CreateAccountAction.NavigatePP -> { }
             CreateAccountAction.ShowCreatePasswordScreen -> setShowPasswordScreen(true)
@@ -32,38 +32,38 @@ class CreateAccountViewModel: ActionViewModel<CreateAccountViewState, CreateAcco
         }
     }
 
-    fun updateAddress(v: String) {
+    private fun updateAddress(v: String) {
         viewModelScope.launchSetState { copy(address = v) }
     }
-    fun updateCity(v: String) {
+    private fun updateCity(v: String) {
         viewModelScope.launchSetState { copy(city = v) }
     }
-    fun updateCountry(v: String) {
+    private fun updateCountry(v: String) {
         viewModelScope.launchSetState { copy(country = v) }
     }
-    fun updateEmail(v: String) {
+    private fun updateEmail(v: String) {
         viewModelScope.launchSetState { copy(email = v) }
     }
-    fun updateFirstName(v: String) {
+    private fun updateFirstName(v: String) {
         viewModelScope.launchSetState { copy(firstName = v) }
     }
-    fun updateLastName(v: String) {
+    private fun updateLastName(v: String) {
         viewModelScope.launchSetState { copy(lastName = v) }
     }
-    fun updatePhone(v: String) {
+    private fun updatePhone(v: String) {
         if (v.length <= 10 && v.isDigitsOnly()) {
             viewModelScope.launchSetState { copy(phone = v) }
         }
     }
-    fun updateProvince(v: String) {
+    private fun updateProvince(v: String) {
         viewModelScope.launchSetState { copy(province = v) }
     }
 
-    fun setShowPasswordScreen(b: Boolean) {
+    private fun setShowPasswordScreen(b: Boolean) {
         viewModelScope.launchSetState { copy(showCreatePasswordScreen = b) }
     }
 
-    fun updatePassword(v: String) {
+    private fun updatePassword(v: String) {
         viewModelScope.launchSetState { copy(
             password = v,
             hasOneUppercase = v.contains(regex = Regex("[A-Z]")),
@@ -71,18 +71,18 @@ class CreateAccountViewModel: ActionViewModel<CreateAccountViewState, CreateAcco
             atLeastSixChars = v.length >= 6)
         }
     }
-    fun updateConfirmPassword(v: String) {
+    private fun updateConfirmPassword(v: String) {
         viewModelScope.launchSetState { copy(confirmPassword = v) }
     }
 
-    fun toggleShowPassword() {
+    private fun toggleShowPassword() {
         viewModelScope.launchSetState { copy(showPassword = !showPassword) }
     }
-    fun toggleShowConfirmPassword() {
+    private fun toggleShowConfirmPassword() {
         viewModelScope.launchSetState { copy(showConfirmPassword = !showConfirmPassword) }
     }
 
-    fun toggleTOSCheck() {
+    private fun toggleTOSCheck() {
         viewModelScope.launchSetState { copy(isChecked = !isChecked) }
     }
 }

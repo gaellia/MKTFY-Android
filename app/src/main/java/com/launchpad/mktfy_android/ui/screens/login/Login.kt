@@ -42,11 +42,11 @@ import com.launchpad.mktfy_android.ui.theme.*
 
 @Composable
 fun Login(
-    navigateHome: () -> Unit,
+    navigateDash: () -> Unit,
     navigateForgotPassword: () -> Unit,
     navigateCreateAccount: () -> Unit
 ) {
-    LoginState(navigateHome = navigateHome,
+    LoginState(navigateDash = navigateDash,
         navigateForgotPassword = navigateForgotPassword,
         navigateCreateAccount = navigateCreateAccount
     )
@@ -55,7 +55,7 @@ fun Login(
 @Composable
 fun LoginState(
     loginViewModel: LoginViewModel = viewModel(),
-    navigateHome: () -> Unit,
+    navigateDash: () -> Unit,
     navigateForgotPassword: () -> Unit,
     navigateCreateAccount: () -> Unit
 ) {
@@ -66,7 +66,7 @@ fun LoginState(
             when(action) {
                 LoginAction.NavigateCreateAccount -> navigateCreateAccount()
                 LoginAction.NavigateForgotPassword -> navigateForgotPassword()
-                LoginAction.NavigateHome -> navigateHome()
+                LoginAction.NavigateDash -> navigateDash()
                 else -> loginViewModel.collectAction(action)
             }
         }
@@ -297,7 +297,8 @@ fun LoginContent(
                 .padding(horizontal = 15.dp)
                 .padding(bottom = 40.dp)
                 .height(64.dp),
-                onClick = { actioner(LoginAction.Login) },
+                //TODO: Login call
+                onClick = { actioner(LoginAction.NavigateDash) },
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = YellowOrange,
                     contentColor = Color.White
