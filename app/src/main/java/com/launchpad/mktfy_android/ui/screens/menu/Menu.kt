@@ -34,7 +34,8 @@ fun Menu(
     navigateFAQ: () -> Unit,
     navigateMyListings: () -> Unit,
     navigateMyPurchases: () -> Unit,
-    navigateNotifications: () -> Unit
+    navigateNotifications: () -> Unit,
+    navigateLogin: () -> Unit
 ) {
     MenuState(
         navigateAccountInfo = navigateAccountInfo,
@@ -44,7 +45,8 @@ fun Menu(
         navigateFAQ = navigateFAQ,
         navigateMyListings = navigateMyListings,
         navigateMyPurchases = navigateMyPurchases,
-        navigateNotifications = navigateNotifications
+        navigateNotifications = navigateNotifications,
+        navigateLogin = navigateLogin
     )
 }
 
@@ -60,7 +62,8 @@ private fun MenuState(
     navigateFAQ: () -> Unit,
     navigateMyListings: () -> Unit,
     navigateMyPurchases: () -> Unit,
-    navigateNotifications: () -> Unit
+    navigateNotifications: () -> Unit,
+    navigateLogin: () -> Unit
 ){
     val viewState by viewModel.state.collectAsState()
     MenuContent(
@@ -75,6 +78,7 @@ private fun MenuState(
                 MenuAction.NavigateMyListings -> navigateMyListings()
                 MenuAction.NavigateMyPurchases -> navigateMyPurchases()
                 MenuAction.NavigateNotifications -> navigateNotifications()
+                MenuAction.NavigateLogin -> navigateLogin()
                 else -> viewModel.submitAction(action)
             }
         }
@@ -334,7 +338,10 @@ private fun MenuContent(
             .padding(bottom = 10.dp)
             .fillMaxWidth()
             .height(50.dp)
-            .clickable { actioner(MenuAction.SignOut) },
+            .clickable {
+                actioner(MenuAction.SignOut)
+                actioner(MenuAction.NavigateLogin)
+            },
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {

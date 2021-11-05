@@ -9,5 +9,6 @@ sealed class MenuAction {
     object NavigateNotifications: MenuAction()
     object NavigateFAQ: MenuAction()
     object NavigateContactUs: MenuAction()
+    object NavigateLogin: MenuAction()
     object SignOut: MenuAction()
 }
