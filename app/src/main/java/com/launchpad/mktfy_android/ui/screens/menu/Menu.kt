@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -143,58 +144,197 @@ private fun MenuContent(
             }
 
             // Menu
-            Text("Settings")
-            Text("Account Information")
-            Text("Change Password")
-            Text("My Purchases")
-            Row() {
-                Text("My Listings")
-                Box(modifier = Modifier
-                    .size(40.dp)
-                    .background(DarkerPurple, RoundedCornerShape(10.dp))
-                ) {
-                    Text(
-                        modifier = Modifier.align(Alignment.Center),
-                        text = viewState.numberOfMyListings.toString(),
-                        style = TextStyle.Default.copy(
-                            fontFamily = openSansFamily,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 14.sp
-                        ),
-                        color = Color.White
+            Text(modifier = Modifier
+                .padding(start = 15.dp, top = 30.dp),
+                text ="Settings",
+                style = TextStyle.Default.copy(
+                    fontFamily = openSansFamily,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 14.sp,
+                    color = Color.Black
+                )
+            )
+            Row(modifier = Modifier
+                .padding(top = 10.dp)
+                .fillMaxWidth()
+                .height(50.dp)
+                .clickable { actioner(MenuAction.NavigateAccountInfo) },
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(modifier = Modifier
+                    .padding(start = 15.dp),
+                    text ="Account Information",
+                    style = TextStyle.Default.copy(
+                        fontFamily = openSansFamily,
+                        fontWeight = FontWeight.Normal,
+                        fontSize = 14.sp,
+                        color = Color.Black
+                    ),
+                    textAlign = TextAlign.Start
+                )
+            }
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp)
+                .clickable { actioner(MenuAction.NavigateChangePassword) },
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    modifier = Modifier
+                        .padding(start = 15.dp),
+                    text = "Change Password",
+                    style = TextStyle.Default.copy(
+                        fontFamily = openSansFamily,
+                        fontWeight = FontWeight.Normal,
+                        fontSize = 14.sp,
+                        color = Color.Black
                     )
+                )
+            }
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp)
+                .clickable { actioner(MenuAction.NavigateMyPurchases) },
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    modifier = Modifier
+                        .padding(start = 15.dp),
+                    text = "My Purchases",
+                    style = TextStyle.Default.copy(
+                        fontFamily = openSansFamily,
+                        fontWeight = FontWeight.Normal,
+                        fontSize = 14.sp,
+                        color = Color.Black
+                    )
+                )
+            }
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp)
+                .clickable { actioner(MenuAction.NavigateMyListings) },
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(modifier = Modifier
+                    .padding(start = 15.dp),
+                    text ="My Listings",
+                    style = TextStyle.Default.copy(
+                        fontFamily = openSansFamily,
+                        fontWeight = FontWeight.Normal,
+                        fontSize = 14.sp,
+                        color = Color.Black
+                    )
+                )
+                if (viewState.numberOfMyListings > 0) {
+                    Box(
+                        modifier = Modifier
+                            .padding(start = 20.dp)
+                            .size(40.dp)
+                            .background(DarkerPurple, RoundedCornerShape(10.dp))
+                    ) {
+                        Text(
+                            modifier = Modifier.align(Alignment.Center),
+                            text = viewState.numberOfMyListings.toString(),
+                            style = TextStyle.Default.copy(
+                                fontFamily = openSansFamily,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 14.sp
+                            ),
+                            color = Color.White
+                        )
+                    }
                 }
             }
-            Row() {
-                Text("Notifications")
-                Box(modifier = Modifier
-                    .size(40.dp)
-                    .background(DarkerPurple, RoundedCornerShape(10.dp))
-                ) {
-                    Text(
-                        modifier = Modifier.align(Alignment.Center),
-                        text = viewState.numberOfNotifications.toString(),
-                        style = TextStyle.Default.copy(
-                            fontFamily = openSansFamily,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 14.sp
-                        ),
-                        color = Color.White
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp)
+                .clickable { actioner(MenuAction.NavigateNotifications) },
+                verticalAlignment = Alignment.CenterVertically) {
+                Text(modifier = Modifier
+                    .padding(start = 15.dp),
+                    text ="Notifications",
+                    style = TextStyle.Default.copy(
+                        fontFamily = openSansFamily,
+                        fontWeight = FontWeight.Normal,
+                        fontSize = 14.sp,
+                        color = Color.Black
                     )
+                )
+                if (viewState.numberOfNotifications > 0) {
+                    Box(
+                        modifier = Modifier
+                            .padding(start = 10.dp)
+                            .size(40.dp)
+                            .background(DarkerPurple, RoundedCornerShape(10.dp))
+                    ) {
+                        Text(
+                            modifier = Modifier.align(Alignment.Center),
+                            text = viewState.numberOfNotifications.toString(),
+                            style = TextStyle.Default.copy(
+                                fontFamily = openSansFamily,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 14.sp
+                            ),
+                            color = Color.White
+                        )
+                    }
                 }
             }
-            Text("Help")
-            Text("FAQ")
-            Text("Contact Us")
-
-
+            Text(modifier = Modifier
+                .padding(start = 15.dp, top = 30.dp),
+                text ="Help",
+                style = TextStyle.Default.copy(
+                    fontFamily = openSansFamily,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 14.sp,
+                    color = Color.Black
+                )
+            )
+            Row(modifier = Modifier
+                .padding(top = 10.dp)
+                .fillMaxWidth()
+                .height(50.dp)
+                .clickable { actioner(MenuAction.NavigateFAQ) },
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    modifier = Modifier
+                        .padding(start = 15.dp),
+                    text = "FAQ",
+                    style = TextStyle.Default.copy(
+                        fontFamily = openSansFamily,
+                        fontWeight = FontWeight.Normal,
+                        fontSize = 14.sp,
+                        color = Color.Black
+                    )
+                )
+            }
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp)
+                .clickable { actioner(MenuAction.NavigateContactUs) },
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    modifier = Modifier
+                        .padding(start = 15.dp),
+                    text = "Contact Us",
+                    style = TextStyle.Default.copy(
+                        fontFamily = openSansFamily,
+                        fontWeight = FontWeight.Normal,
+                        fontSize = 14.sp,
+                        color = Color.Black
+                    )
+                )
+            }
         }
         //Signout
         Row(modifier = Modifier
             .align(Alignment.BottomCenter)
             .padding(bottom = 10.dp)
             .fillMaxWidth()
-            .height(50.dp),
+            .height(50.dp)
+            .clickable { actioner(MenuAction.SignOut) },
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
