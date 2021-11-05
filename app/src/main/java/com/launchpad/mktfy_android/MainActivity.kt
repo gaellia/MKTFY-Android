@@ -15,6 +15,7 @@ import com.launchpad.mktfy_android.ui.screens.createAccount.CreateAccount
 import com.launchpad.mktfy_android.ui.screens.dashboard.Dashboard
 import com.launchpad.mktfy_android.ui.screens.forgotPassword.ForgotPassword
 import com.launchpad.mktfy_android.ui.screens.login.Login
+import com.launchpad.mktfy_android.ui.screens.menu.Menu
 import com.launchpad.mktfy_android.ui.theme.MKTFY_AndroidTheme
 
 class MainActivity : ComponentActivity() {
@@ -66,9 +67,25 @@ fun MKTFYApp() {
                 }
                 composable("dashboard") {
                     Dashboard(
-                        navigateMenu = {},
+                        navigateMenu = {
+                            navController.navigate("menu") {
+                                restoreState = true
+                            }
+                        },
                         navigateProductDetail = {},
                         navigateCreateListing = {}
+                    )
+                }
+                composable("menu") {
+                    Menu(
+                        navigateAccountInfo = {},
+                        navigateBack = {navController.popBackStack()},
+                        navigateChangePassword = {},
+                        navigateContactUs = {},
+                        navigateFAQ = {},
+                        navigateMyListings = {},
+                        navigateMyPurchases = {},
+                        navigateNotifications = {}
                     )
                 }
             }

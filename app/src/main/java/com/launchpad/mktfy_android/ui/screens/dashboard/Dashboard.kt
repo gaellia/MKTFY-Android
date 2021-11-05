@@ -101,6 +101,7 @@ private fun DashboardContent(
                         contentDescription = null,
                         modifier = Modifier
                             .padding(bottom = 18.dp, top = 18.dp, start = 15.dp)
+                            .clickable { actioner(DashboardAction.NavigateMenu) }
                     )
                     Text(modifier = Modifier
                         .padding(start = 15.dp)
