@@ -9,10 +9,16 @@ class ForgotPasswordViewModel: ActionViewModel<ForgotPasswordViewState, ForgotPa
             is ForgotPasswordAction.UpdateEmail -> updateEmail(action.email)
             is ForgotPasswordAction.UpdateEmailState -> {}
             ForgotPasswordAction.NavigateBack -> { }
+            ForgotPasswordAction.HideEmailError -> updateEmailError(false)
+            ForgotPasswordAction.ShowEmailError -> updateEmailError(true)
         }
     }
 
-    fun updateEmail(v: String) {
+    private fun updateEmailError(b: Boolean) {
+        viewModelScope.launchSetState { copy(showEmailError = b) }
+    }
+
+    private fun updateEmail(v: String) {
         viewModelScope.launchSetState { copy(email = v) }
     }
 }

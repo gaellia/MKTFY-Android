@@ -1,7 +1,6 @@
 package com.launchpad.mktfy_android.ui.screens.forgotPassword
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -13,7 +12,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
@@ -25,7 +23,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.launchpad.mktfy_android.R
-import com.launchpad.mktfy_android.models.LoadState
 import com.launchpad.mktfy_android.ui.components.Header
 import com.launchpad.mktfy_android.ui.theme.*
 
@@ -70,8 +67,8 @@ fun ForgotPasswordContent(
             navigateBack = { actioner(ForgotPasswordAction.NavigateBack) }
         )
 
-        val borderColor = if (viewState.emailState == LoadState.ERROR) ErrorColor else GrayBorderColor
-        val emailFieldBottomPadding = if (viewState.emailState == LoadState.ERROR) 0.dp else 122.dp
+        val borderColor = if (viewState.showEmailError) ErrorColor else GrayBorderColor
+        val emailFieldBottomPadding = if (viewState.showEmailError) 0.dp else 122.dp
 
         val focusManager = LocalFocusManager.current
 
@@ -160,7 +157,7 @@ fun ForgotPasswordContent(
 
 
                 // Email error
-                if (viewState.emailState == LoadState.ERROR) {
+                if (viewState.showEmailError) {
                     Text(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -215,6 +212,6 @@ fun EnterEmailPreview() {
 @Composable
 fun EnterEmailErrorPreview() {
     MKTFY_AndroidTheme {
-        ForgotPasswordContent(ForgotPasswordViewState(emailState = LoadState.ERROR))
+        ForgotPasswordContent(ForgotPasswordViewState(showEmailError = true))
     }
 }
