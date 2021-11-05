@@ -1,11 +1,11 @@
 package com.launchpad.mktfy_android.ui.screens.dashboard
 
 import android.text.Layout
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
@@ -14,6 +14,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.FontWeight
@@ -22,8 +24,13 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.launchpad.mktfy_android.R
 import com.launchpad.mktfy_android.ui.theme.*
+import coil.compose.rememberImagePainter
+import coil.size.OriginalSize
+import coil.size.Scale
+import com.launchpad.mktfy_android.ui.components.StaggeredVerticalGrid
 
 
+@ExperimentalFoundationApi
 @Composable
 fun Dashboard(
     navigateCreateListing: () -> Unit,
@@ -38,6 +45,7 @@ fun Dashboard(
 }
 
 
+@ExperimentalFoundationApi
 @Composable
 private fun DashboardState(
     viewModel: DashboardViewModel = viewModel(),
@@ -57,14 +65,18 @@ private fun DashboardState(
             }
         }
     )
+    viewModel.getListings()
 }
 
 
+@ExperimentalFoundationApi
 @Composable
 private fun DashboardContent(
     viewState: DashboardViewState = DashboardViewState(),
     actioner: (DashboardAction) -> Unit = {}
 ) {
+    // TODO: Can I move this somewhere else?
+    val focusManager = LocalFocusManager.current
     Surface(modifier = Modifier
         .fillMaxSize()
     ) {
@@ -130,107 +142,125 @@ private fun DashboardContent(
                             painterResource(id = R.drawable.search_24px),
                             contentDescription = null,
                             tint = Gray)},
-                        singleLine = true
+                        singleLine = true,
+                        keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() })
                     )
                 }
             }
-            // Categories
-            Column(modifier = Modifier
-                .fillMaxWidth()
-                .height(129.dp)
+            LazyColumn(modifier = Modifier
+                .fillMaxSize()
                 .background(Color.White)
             ) {
-                Row(modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 11.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text(modifier = Modifier
-                        .padding(start = 15.dp),
-                        text ="Browse Categories",
-                        style = TextStyle.Default.copy(
-                            fontFamily = openSansFamily,
-                            fontWeight = FontWeight.Normal,
-                            fontSize = 14.sp,
-                            color = Color.Black
+                // Categories
+                item {
+                    Row(modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 11.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(modifier = Modifier
+                            .padding(start = 15.dp),
+                            text ="Browse Categories",
+                            style = TextStyle.Default.copy(
+                                fontFamily = openSansFamily,
+                                fontWeight = FontWeight.Normal,
+                                fontSize = 14.sp,
+                                color = Color.Black
+                            )
                         )
-                    )
-                    //TODO: Dropdown menu
-                    Text(modifier = Modifier
-                        .padding(end = 15.dp),
-                        text = "City",
-                        style = TextStyle.Default.copy(
-                            fontFamily = openSansFamily,
-                            fontWeight = FontWeight.Normal,
-                            fontSize = 14.sp,
-                            color = DarkerPurple
+                        //TODO: Dropdown menu
+                        Text(modifier = Modifier
+                            .padding(end = 15.dp),
+                            text = "City",
+                            style = TextStyle.Default.copy(
+                                fontFamily = openSansFamily,
+                                fontWeight = FontWeight.Normal,
+                                fontSize = 14.sp,
+                                color = DarkerPurple
+                            )
                         )
-                    )
+                    }
                 }
-                LazyRow(
-                    contentPadding = PaddingValues(top = 17.dp, bottom = 20.dp, start = 15.dp, end = 15.dp),
-                    horizontalArrangement = Arrangement.spacedBy(32.dp),
-                    content = {
-                        Category.values().forEach {
-                            item {
-                                Column(modifier = Modifier
-                                    .clickable {
-                                        actioner(DashboardAction.ChangeCategory(it))
-                                    }) {
-                                    Icon(
-                                        painter = painterResource(id = it.icon),
-                                        contentDescription = null,
-                                        tint = if (viewState.category == it) DarkerPurple else YellowOrange,
-                                        modifier = Modifier.align(Alignment.CenterHorizontally)
-                                    )
-                                    Text(modifier = Modifier
-                                        .align(Alignment.CenterHorizontally),
-                                        text = it.category,
-                                        style = TextStyle.Default.copy(
-                                            fontFamily = openSansFamily,
-                                            fontWeight = FontWeight.Normal,
-                                            fontSize = 10.sp,
-                                            color = Color.Black
+                item {
+                    LazyRow(
+                        contentPadding = PaddingValues(top = 17.dp, bottom = 20.dp, start = 15.dp, end = 15.dp),
+                        horizontalArrangement = Arrangement.spacedBy(32.dp),
+                        content = {
+                            Category.values().forEach {
+                                item {
+                                    Column(modifier = Modifier
+                                        .clickable {
+                                            actioner(DashboardAction.ChangeCategory(it))
+                                        }) {
+                                        Icon(
+                                            painter = painterResource(id = it.icon),
+                                            contentDescription = null,
+                                            tint = if (viewState.category == it) DarkerPurple else YellowOrange,
+                                            modifier = Modifier.align(Alignment.CenterHorizontally)
                                         )
-                                    )
+                                        Text(modifier = Modifier
+                                            .align(Alignment.CenterHorizontally),
+                                            text = it.category,
+                                            style = TextStyle.Default.copy(
+                                                fontFamily = openSansFamily,
+                                                fontWeight = FontWeight.Normal,
+                                                fontSize = 10.sp,
+                                                color = Color.Black
+                                            )
+                                        )
+                                    }
                                 }
                             }
                         }
+                    )
+                }
+                // Listings
+                item{
+                    Row(modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 20.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(modifier = Modifier
+                            .padding(start = 15.dp),
+                            text = if (viewState.category == Category.DEALS) viewState.category.category+" for you" else viewState.category.category,
+                            style = TextStyle.Default.copy(
+                                fontFamily = openSansFamily,
+                                fontWeight = FontWeight.Normal,
+                                fontSize = 14.sp,
+                                color = Color.Black
+                            )
+                        )
+                        //TODO: Change City
+                        Text(modifier = Modifier
+                            .padding(end = 15.dp),
+                            text = "City",
+                            style = TextStyle.Default.copy(
+                                fontFamily = openSansFamily,
+                                fontWeight = FontWeight.Normal,
+                                fontSize = 14.sp,
+                                color = Color.Black
+                            )
+                        )
                     }
-                )
-            }
-            // Listings
-            Column(modifier = Modifier
-                .fillMaxSize()
-                .padding(top = 3.dp)
-                .background(Color.White)
-            ) {
-                Row(modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 20.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text(modifier = Modifier
-                        .padding(start = 15.dp),
-                        text = if (viewState.category == Category.DEALS) viewState.category.category+" for you" else viewState.category.category,
-                        style = TextStyle.Default.copy(
-                            fontFamily = openSansFamily,
-                            fontWeight = FontWeight.Normal,
-                            fontSize = 14.sp,
-                            color = Color.Black
-                        )
-                    )
-                    //TODO: Change City
-                    Text(modifier = Modifier
-                        .padding(end = 15.dp),
-                        text = "City",
-                        style = TextStyle.Default.copy(
-                            fontFamily = openSansFamily,
-                            fontWeight = FontWeight.Normal,
-                            fontSize = 14.sp,
-                            color = Color.Black
-                        )
-                    )
+                }
+                item {
+                    StaggeredVerticalGrid(
+                        modifier = Modifier
+                            .padding(start = 4.dp, end = 4.dp)
+                    ) {
+                        viewState.listings.forEach{listing ->
+                            Card(modifier = Modifier
+                                .padding(horizontal = 5.dp, vertical = 5.dp)
+                                .fillMaxHeight(),
+                                backgroundColor = Color.White,
+                                elevation = 4.dp,
+                                shape = RoundedCornerShape(10.dp)
+                            ) {
+                                Listing(listing = listing)
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -238,11 +268,49 @@ private fun DashboardContent(
 }
 
 @Composable
-fun CategoryList(categories: List<Category>) {
-
+fun Listing(
+    modifier: Modifier = Modifier,
+    listing: Listing
+) {
+    Column(modifier = modifier) {
+        Image(modifier = Modifier
+            .fillMaxSize(),
+            painter = rememberImagePainter(
+                data = listing.imagePath,
+                builder = {
+                    // TODO: optimize getting the image?
+                    size(OriginalSize)
+                    scale(Scale.FIT)
+                }
+            ),
+            contentDescription = null,
+            contentScale = ContentScale.FillWidth
+        )
+        Text(modifier = Modifier
+            .padding(start = 10.dp, top = 10.dp),
+            text = listing.title,
+            style = TextStyle.Default.copy(
+                fontFamily = openSansFamily,
+                fontWeight = FontWeight.Normal,
+                fontSize = 14.sp,
+                color = Color.Black
+            )
+        )
+        Text(modifier = Modifier
+            .padding(start = 10.dp, top = 4.dp, bottom = 10.dp),
+            text = listing.getFormattedPrice(),
+            style = TextStyle.Default.copy(
+                fontFamily = openSansFamily,
+                fontWeight = FontWeight.Bold,
+                fontSize = 16.sp,
+                color = DarkerPurple
+            )
+        )
+    }
 }
 
 
+@ExperimentalFoundationApi
 @Preview
 @Composable
 private fun DashboardPreview() {

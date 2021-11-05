@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
@@ -17,6 +18,7 @@ import com.launchpad.mktfy_android.ui.screens.login.Login
 import com.launchpad.mktfy_android.ui.theme.MKTFY_AndroidTheme
 
 class MainActivity : ComponentActivity() {
+    @ExperimentalFoundationApi
     @ExperimentalAnimationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +28,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@ExperimentalFoundationApi
 @ExperimentalAnimationApi
 @Composable
 fun MKTFYApp() {
