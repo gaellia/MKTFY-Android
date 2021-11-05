@@ -14,6 +14,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
@@ -215,6 +216,13 @@ private fun DashboardContent(
                             }
                         }
                     )
+                }
+                //Divider
+                item {
+                    Box(modifier = Modifier
+                        .fillMaxWidth()
+                        .height(3.dp)
+                        .background(GrayBackground, shape = RectangleShape))
                 }
                 // Listings
                 item{

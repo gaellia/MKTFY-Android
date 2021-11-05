@@ -37,7 +37,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.launchpad.mktfy_android.R
-import com.launchpad.mktfy_android.models.LoadState
 import com.launchpad.mktfy_android.ui.theme.*
 
 @Composable
@@ -111,8 +110,8 @@ fun LoginContent(
 
         val visibilityIcon = if (viewState.showPassword) Icons.Filled.Visibility else Icons.Filled.VisibilityOff
         val visualTransformation = if (viewState.showPassword) VisualTransformation.None else PasswordVisualTransformation()
-        val borderColor = if (viewState.loginLoadState == LoadState.ERROR) ErrorColor else GrayBorderColor
-        val topPasswordPadding = if (viewState.loginLoadState == LoadState.ERROR) 5.dp else 24.dp
+        val borderColor = if (viewState.showEmailError) ErrorColor else GrayBorderColor
+        val topPasswordPadding = if (viewState.showEmailError) 5.dp else 24.dp
 
         val focusManager = LocalFocusManager.current
 
@@ -190,27 +189,27 @@ fun LoginContent(
                     unfocusedBorderColor = borderColor
                 ),
                 // TODO: For debugging purposes, remove later
-                trailingIcon = {
-                    Icon(
-                        Icons.Filled.Adb,
-                        contentDescription = null,
-                        tint = GrayIconColor,
-                        modifier = Modifier
-                            .clickable(
-                                onClick = {
-                                    if (viewState.loginLoadState == LoadState.NONE)
-                                        actioner(LoginAction.UpdateLoginState(LoadState.ERROR))
-                                    else
-                                        actioner(LoginAction.UpdateLoginState(LoadState.NONE))
-                                }
-                            )
-                    )
-                },
+//                trailingIcon = {
+//                    Icon(
+//                        Icons.Filled.Adb,
+//                        contentDescription = null,
+//                        tint = GrayIconColor,
+//                        modifier = Modifier
+//                            .clickable(
+//                                onClick = {
+//                                    if (viewState.showEmailError)
+//                                        actioner(LoginAction.HideEmailError)
+//                                    else
+//                                        actioner(LoginAction.ShowEmailError)
+//                                }
+//                            )
+//                    )
+//                },
                 keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() })
             )
 
             // Email error
-            if (viewState.loginLoadState == LoadState.ERROR) {
+            if (viewState.showEmailError) {
                 Text(modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp),

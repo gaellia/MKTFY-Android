@@ -15,14 +15,20 @@ class LoginViewModel: ActionViewModel<LoginViewState, LoginAction>(LoginViewStat
             is LoginAction.UpdatePassword -> updatePassword(action.password)
             LoginAction.ShowPassword -> toggleShowPassword()
             is LoginAction.UpdateLoginState -> updateLoginState(action.LoadState)
+            LoginAction.HideEmailError -> updateEmailError(false)
+            LoginAction.ShowEmailError -> updateEmailError(true)
         }
     }
 
-    fun updateEmail(v: String) {
+    private fun updateEmailError(b: Boolean) {
+        viewModelScope.launchSetState { copy(showEmailError = b) }
+    }
+
+    private fun updateEmail(v: String) {
         viewModelScope.launchSetState { copy(email = v) }
     }
 
-    fun updatePassword(v: String) {
+    private fun updatePassword(v: String) {
         viewModelScope.launchSetState { copy(password = v) }
     }
 
@@ -30,11 +36,11 @@ class LoginViewModel: ActionViewModel<LoginViewState, LoginAction>(LoginViewStat
         viewModelScope.launchSetState { copy(showSplashScreen = false) }
     }
 
-    fun toggleShowPassword() {
+    private fun toggleShowPassword() {
         viewModelScope.launchSetState { copy(showPassword = !showPassword) }
     }
 
-    fun updateLoginState(s: LoadState) {
+    private fun updateLoginState(s: LoadState) {
         viewModelScope.launchSetState { copy(loginLoadState = s) }
     }
 }
