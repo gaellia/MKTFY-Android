@@ -7,7 +7,7 @@ class ForgotPasswordViewModel: ActionViewModel<ForgotPasswordViewState, ForgotPa
     override fun collectAction(action: ForgotPasswordAction) {
         when(action) {
             is ForgotPasswordAction.UpdateEmail -> updateEmail(action.email)
-            is ForgotPasswordAction.UpdateEmailState -> {}
+            is ForgotPasswordAction.UpdateEmailLoadState -> {}
             ForgotPasswordAction.NavigateBack -> { }
             ForgotPasswordAction.HideEmailError -> updateEmailError(false)
             ForgotPasswordAction.ShowEmailError -> updateEmailError(true)
