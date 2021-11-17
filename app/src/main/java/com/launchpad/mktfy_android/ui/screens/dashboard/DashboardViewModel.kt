@@ -28,6 +28,7 @@ class DashboardViewModel :
     fun getListings(){
         val imagePath = "https://www.londondrugs.com/on/demandware.static/-/Sites-londondrugs-master/default/dw98a2fe01/products/L6485676/large/L6485676.JPG"
         val imagePath2 = "https://canadiantire.scene7.com/is/image/CanadianTire/Ct_Scooters_LIT1_Kick_&_Stunt_Scooters?scl=1"
+        val imagePath3 = "https://scontent.fyyc3-1.fna.fbcdn.net/v/t1.15752-9/251087275_354510189696716_7718496417482136568_n.png?_nc_cat=100&ccb=1-5&_nc_sid=ae9488&_nc_ohc=0AILWCmsVoQAX_FAARW&tn=eL6LB8rpsux-L5zj&_nc_ht=scontent.fyyc3-1.fna&oh=953fff2803cad8451052df105d19061c&oe=61AC4358"
         viewModelScope.launch {
             launchSetState { copy(
                 listings = listOf(
@@ -51,9 +52,9 @@ class DashboardViewModel :
                     ),
                     Listing(
                         id = "126",
-                        title = "Playstation 4",
-                        price = 340.0,
-                        imagePath = imagePath2
+                        title = "Antique Chair",
+                        price = 257.00,
+                        imagePath = imagePath3
                     ),
                     Listing(
                         id = "127",

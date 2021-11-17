@@ -80,7 +80,6 @@ fun ForgotPasswordContent(
                 color = LightGrayBackground,
                 shape = RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp)
             )
-            .verticalScroll(rememberScrollState()),
         ) {
             Column(modifier = Modifier
                 .fillMaxSize()
@@ -177,7 +176,6 @@ fun ForgotPasswordContent(
                 Button(modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp)
-                    .padding(bottom = 155.dp)
                     .height(51.dp),
                     shape = RoundedCornerShape(37.dp),
                     colors = ButtonDefaults.buttonColors(

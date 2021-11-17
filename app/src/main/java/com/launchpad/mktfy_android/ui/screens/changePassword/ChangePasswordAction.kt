@@ -1,5 +1,7 @@
 package com.launchpad.mktfy_android.ui.screens.changePassword
 
+import com.launchpad.mktfy_android.ui.screens.createAccount.CreateAccountAction
+
 sealed class ChangePasswordAction {
     data class UpdateCurrentPasswordField(val currentPassword: String): ChangePasswordAction()
     data class UpdatePasswordField(val password: String): ChangePasswordAction()
@@ -7,4 +9,8 @@ sealed class ChangePasswordAction {
 
     object UpdatePassword: ChangePasswordAction()
     object NavigateBack: ChangePasswordAction()
+
+    object ShowCurrentPassword: ChangePasswordAction()
+    object ShowPassword: ChangePasswordAction()
+    object ShowConfirmPassword: ChangePasswordAction()
 }

@@ -809,11 +809,12 @@ fun CreateAccountContent(
                         )
                     )
                 }
+                
+                Spacer(modifier = Modifier.weight(1f))
 
                 Row(modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp)
-                    .padding(top = 179.dp)
                 ) {
                     Icon(
                         painter = painterResource(id = checkbox),

@@ -11,5 +11,7 @@ data class ChangePasswordViewState(
 
     val showCurrentPassword: Boolean = false,
     val showPassword: Boolean = false,
-    val showConfirmPassword: Boolean = false
+    val showConfirmPassword: Boolean = false,
+
+    val currentPasswordErrorState: Boolean = false
 )
