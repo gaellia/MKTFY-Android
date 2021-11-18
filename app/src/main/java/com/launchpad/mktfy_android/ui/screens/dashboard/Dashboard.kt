@@ -79,7 +79,7 @@ private fun DashboardContent(
     //TODO: Back handling on dashboard
     // TODO: Can I move this somewhere else?
     val focusManager = LocalFocusManager.current
-    Surface(modifier = Modifier
+    Box(modifier = Modifier
         .fillMaxSize()
     ) {
         Column(modifier = Modifier
@@ -274,6 +274,16 @@ private fun DashboardContent(
                 }
             }
         }
+
+        // Create Listing Button
+        Button(modifier = Modifier
+            .align(Alignment.BottomCenter)
+            .padding(bottom = 20.dp),
+            onClick = { actioner(DashboardAction.NavigateCreateListing) }
+        ) {
+            Text("Create Listing")
+        }
+
     }
 }
 
