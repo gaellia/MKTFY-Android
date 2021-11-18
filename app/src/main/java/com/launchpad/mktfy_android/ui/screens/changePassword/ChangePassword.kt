@@ -1,12 +1,10 @@
 package com.launchpad.mktfy_android.ui.screens.changePassword
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
@@ -17,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
@@ -29,14 +26,12 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.launchpad.mktfy_android.R
 import com.launchpad.mktfy_android.ui.components.Header
-import com.launchpad.mktfy_android.ui.screens.createAccount.CreateAccountAction
 import com.launchpad.mktfy_android.ui.theme.*
 
 
@@ -368,7 +363,7 @@ private fun ChangePasswordContent(
                 )
                 Text(
                     modifier = Modifier
-                        .padding(start = 12.dp),
+                        .padding(start = 12.dp, bottom = 20.dp),
                     text = stringResource(R.string.one_number),
                     style = TextStyle.Default.copy(
                         fontFamily = openSansFamily,

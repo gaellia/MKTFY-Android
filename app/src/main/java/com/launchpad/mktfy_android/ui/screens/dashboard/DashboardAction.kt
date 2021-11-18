@@ -1,7 +1,5 @@
 package com.launchpad.mktfy_android.ui.screens.dashboard
 
-import com.launchpad.mktfy_android.ui.screens.login.LoginAction
-
 sealed class DashboardAction {
     object NavigateMenu: DashboardAction()
     object NavigateCreateListing: DashboardAction()

@@ -15,6 +15,7 @@ import com.launchpad.mktfy_android.ui.screens.accountInformation.AccountInformat
 import com.launchpad.mktfy_android.ui.screens.changePassword.ChangePassword
 import com.launchpad.mktfy_android.ui.screens.createAccount.CreateAccount
 import com.launchpad.mktfy_android.ui.screens.dashboard.Dashboard
+import com.launchpad.mktfy_android.ui.screens.faq.Faq
 import com.launchpad.mktfy_android.ui.screens.forgotPassword.ForgotPassword
 import com.launchpad.mktfy_android.ui.screens.login.Login
 import com.launchpad.mktfy_android.ui.screens.menu.Menu
@@ -84,7 +85,7 @@ fun MKTFYApp() {
                         navigateBack = {navController.popBackStack()},
                         navigateChangePassword = {navController.navigate("changePassword")},
                         navigateContactUs = {},
-                        navigateFAQ = {},
+                        navigateFAQ = {navController.navigate("faq")},
                         navigateMyListings = {},
                         navigateMyPurchases = {},
                         navigateNotifications = {},
@@ -102,6 +103,11 @@ fun MKTFYApp() {
                 }
                 composable("accountInformation") {
                     AccountInformation(
+                        navigateBack = {navController.popBackStack()}
+                    )
+                }
+                composable("faq") {
+                    Faq(
                         navigateBack = {navController.popBackStack()}
                     )
                 }

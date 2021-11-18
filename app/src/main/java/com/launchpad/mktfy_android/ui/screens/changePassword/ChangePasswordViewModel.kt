@@ -2,7 +2,6 @@ package com.launchpad.mktfy_android.ui.screens.changePassword
 
 import androidx.lifecycle.viewModelScope
 import com.launchpad.mktfy_android.core.ActionViewModel
-import com.launchpad.mktfy_android.ui.screens.createAccount.CreateAccountAction
 
 class ChangePasswordViewModel :
     ActionViewModel<ChangePasswordViewState, ChangePasswordAction>(ChangePasswordViewState()) {

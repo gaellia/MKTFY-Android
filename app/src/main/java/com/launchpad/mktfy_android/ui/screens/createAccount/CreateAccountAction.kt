@@ -1,9 +1,5 @@
 package com.launchpad.mktfy_android.ui.screens.createAccount
 
-import com.launchpad.mktfy_android.models.LoadState
-import com.launchpad.mktfy_android.ui.screens.forgotPassword.ForgotPasswordAction
-import com.launchpad.mktfy_android.ui.screens.login.LoginAction
-
 sealed class CreateAccountAction {
     data class UpdateFirstName(val firstName: String): CreateAccountAction()
     data class UpdateLastName(val lastName: String): CreateAccountAction()
