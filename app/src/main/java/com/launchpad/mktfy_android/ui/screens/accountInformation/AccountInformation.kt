@@ -139,7 +139,8 @@ private fun AccountInformationContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 10.dp)
-                    .padding(horizontal = 20.dp),
+                    .padding(horizontal = 20.dp)
+                    .background(Color.White),
                 value = viewState.firstName,
                 onValueChange = { newFirstName ->
                     actioner(
@@ -187,7 +188,8 @@ private fun AccountInformationContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 10.dp)
-                    .padding(horizontal = 20.dp),
+                    .padding(horizontal = 20.dp)
+                    .background(Color.White),
                 value = viewState.lastName,
                 onValueChange = { newLastName ->
                     actioner(
@@ -235,7 +237,8 @@ private fun AccountInformationContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 10.dp)
-                    .padding(horizontal = 20.dp),
+                    .padding(horizontal = 20.dp)
+                    .background(Color.White),
                 value = viewState.email,
                 onValueChange = { /*Read only*/},
                 placeholder = {
@@ -278,7 +281,8 @@ private fun AccountInformationContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 10.dp)
-                    .padding(horizontal = 20.dp),
+                    .padding(horizontal = 20.dp)
+                    .background(Color.White),
                 value = viewState.phone,
                 onValueChange = { newPhone ->
                     actioner(
@@ -346,7 +350,8 @@ private fun AccountInformationContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 10.dp)
-                    .padding(horizontal = 20.dp),
+                    .padding(horizontal = 20.dp)
+                    .background(Color.White),
                 value = viewState.country,
                 onValueChange = { newCountry ->
                     actioner(
@@ -394,7 +399,8 @@ private fun AccountInformationContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 10.dp)
-                    .padding(horizontal = 20.dp),
+                    .padding(horizontal = 20.dp)
+                    .background(Color.White),
                 value = viewState.province,
                 onValueChange = { newProvince ->
                     actioner(
@@ -442,7 +448,8 @@ private fun AccountInformationContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 10.dp)
-                    .padding(horizontal = 20.dp),
+                    .padding(horizontal = 20.dp)
+                    .background(Color.White),
                 value = viewState.city,
                 onValueChange = { newCity ->
                     actioner(
@@ -490,7 +497,8 @@ private fun AccountInformationContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 10.dp, bottom = 27.dp)
-                    .padding(horizontal = 20.dp),
+                    .padding(horizontal = 20.dp)
+                    .background(Color.White),
                 value = viewState.address,
                 onValueChange = { newAddress ->
                     actioner(

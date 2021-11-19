@@ -128,7 +128,8 @@ fun ForgotPasswordContent(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = emailFieldBottomPadding)
-                        .padding(horizontal = 20.dp),
+                        .padding(horizontal = 20.dp)
+                        .background(Color.White),
                     value = viewState.email,
                     onValueChange = { newEmail -> actioner(ForgotPasswordAction.UpdateEmail(newEmail)) },
                     placeholder = {

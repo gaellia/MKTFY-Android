@@ -138,7 +138,8 @@ fun CreateAccountContent(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 10.dp)
-                        .padding(horizontal = 20.dp),
+                        .padding(horizontal = 20.dp)
+                        .background(Color.White),
                     value = viewState.firstName,
                     onValueChange = { newFirstName ->
                         actioner(
@@ -186,7 +187,8 @@ fun CreateAccountContent(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 10.dp)
-                        .padding(horizontal = 20.dp),
+                        .padding(horizontal = 20.dp)
+                        .background(Color.White),
                     value = viewState.lastName,
                     onValueChange = { newLastName ->
                         actioner(
@@ -234,7 +236,8 @@ fun CreateAccountContent(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 10.dp)
-                        .padding(horizontal = 20.dp),
+                        .padding(horizontal = 20.dp)
+                        .background(Color.White),
                     value = viewState.email,
                     onValueChange = { newEmail ->
                         actioner(
@@ -282,7 +285,8 @@ fun CreateAccountContent(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 10.dp)
-                        .padding(horizontal = 20.dp),
+                        .padding(horizontal = 20.dp)
+                        .background(Color.White),
                     value = viewState.phone,
                     onValueChange = { newPhone ->
                         actioner(
@@ -350,7 +354,8 @@ fun CreateAccountContent(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 10.dp)
-                        .padding(horizontal = 20.dp),
+                        .padding(horizontal = 20.dp)
+                        .background(Color.White),
                     value = viewState.country,
                     onValueChange = { newCountry ->
                         actioner(
@@ -398,7 +403,8 @@ fun CreateAccountContent(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 10.dp)
-                        .padding(horizontal = 20.dp),
+                        .padding(horizontal = 20.dp)
+                        .background(Color.White),
                     value = viewState.province,
                     onValueChange = { newProvince ->
                         actioner(
@@ -446,7 +452,8 @@ fun CreateAccountContent(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 10.dp)
-                        .padding(horizontal = 20.dp),
+                        .padding(horizontal = 20.dp)
+                        .background(Color.White),
                     value = viewState.city,
                     onValueChange = { newCity ->
                         actioner(
@@ -494,7 +501,8 @@ fun CreateAccountContent(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 10.dp)
-                        .padding(horizontal = 20.dp),
+                        .padding(horizontal = 20.dp)
+                        .background(Color.White),
                     value = viewState.address,
                     onValueChange = { newAddress ->
                         actioner(
@@ -635,7 +643,8 @@ fun CreateAccountContent(
                 OutlinedTextField(modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp)
-                    .padding(top = 10.dp),
+                    .padding(top = 10.dp)
+                    .background(Color.White),
                     value = viewState.password,
                     onValueChange = {newPassword -> actioner(CreateAccountAction.UpdatePassword(newPassword))},
                     placeholder = {
@@ -688,7 +697,8 @@ fun CreateAccountContent(
                 OutlinedTextField(modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp)
-                    .padding(top = 10.dp, bottom = bottomConfirmPasswordPadding),
+                    .padding(top = 10.dp, bottom = bottomConfirmPasswordPadding)
+                    .background(Color.White),
                     value = viewState.confirmPassword,
                     onValueChange = {newConfirmPassword -> actioner(CreateAccountAction.UpdateConfirmPassword(newConfirmPassword))},
                     placeholder = {

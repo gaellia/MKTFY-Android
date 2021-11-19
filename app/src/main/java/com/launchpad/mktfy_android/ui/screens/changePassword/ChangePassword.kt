@@ -122,7 +122,8 @@ private fun ChangePasswordContent(
             OutlinedTextField(modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp)
-                .padding(top = 10.dp, bottom = bottomCurrentPasswordPadding),
+                .padding(top = 10.dp, bottom = bottomCurrentPasswordPadding)
+                .background(Color.White),
                 value = viewState.currentPassword,
                 onValueChange = {newCurrentPassword -> actioner(ChangePasswordAction.UpdateCurrentPasswordField(newCurrentPassword))},
                 placeholder = {
@@ -211,7 +212,8 @@ private fun ChangePasswordContent(
             OutlinedTextField(modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp)
-                .padding(top = 10.dp),
+                .padding(top = 10.dp)
+                .background(Color.White),
                 value = viewState.password,
                 onValueChange = {newPassword -> actioner(ChangePasswordAction.UpdatePasswordField(newPassword))},
                 placeholder = {
@@ -266,7 +268,8 @@ private fun ChangePasswordContent(
             OutlinedTextField(modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp)
-                .padding(top = 10.dp, bottom = 26.dp),
+                .padding(top = 10.dp, bottom = 26.dp)
+                .background(Color.White),
                 value = viewState.confirmPassword,
                 onValueChange = {newConfirmPassword -> actioner(ChangePasswordAction.UpdateConfirmPasswordField(newConfirmPassword))},
                 placeholder = {

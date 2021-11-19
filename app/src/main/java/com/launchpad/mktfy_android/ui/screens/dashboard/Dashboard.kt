@@ -116,6 +116,7 @@ private fun DashboardContent(
                     )
                     TextField(
                         modifier = Modifier
+                            .fillMaxWidth()
                             .align(Alignment.CenterVertically),
                         value = viewState.search,
                         onValueChange = {newSearch -> actioner(DashboardAction.UpdateSearch(newSearch))},

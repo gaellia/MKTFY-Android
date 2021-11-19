@@ -13,6 +13,9 @@ sealed class CreateListingAction {
 
     object ToggleCategoryMenu: CreateListingAction()
     object ToggleConditionMenu: CreateListingAction()
+    object ToggleCityMenu: CreateListingAction()
+
+    object PostListing: CreateListingAction()
 
     //TODO: Choose pictures
     //TODO: Post listing

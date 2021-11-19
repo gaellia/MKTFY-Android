@@ -7,15 +7,16 @@ class CreateListingViewModel :
     override fun collectAction(action: CreateListingAction) {
         when (action) {
             CreateListingAction.NavigateBack -> { }
-            CreateListingAction.ToggleCategoryMenu -> TODO()
-            CreateListingAction.ToggleConditionMenu -> TODO()
-            is CreateListingAction.UpdateAddress -> TODO()
-            is CreateListingAction.UpdateCategory -> TODO()
-            is CreateListingAction.UpdateCity -> TODO()
-            is CreateListingAction.UpdateCondition -> TODO()
-            is CreateListingAction.UpdateDescription -> TODO()
-            is CreateListingAction.UpdatePrice -> TODO()
-            is CreateListingAction.UpdateProductName -> TODO()
+            CreateListingAction.ToggleCategoryMenu -> { }
+            CreateListingAction.ToggleConditionMenu -> { }
+            CreateListingAction.ToggleCityMenu -> { }
+            is CreateListingAction.UpdateAddress -> { }
+            is CreateListingAction.UpdateCategory -> { }
+            is CreateListingAction.UpdateCity -> { }
+            is CreateListingAction.UpdateCondition -> { }
+            is CreateListingAction.UpdateDescription -> { }
+            is CreateListingAction.UpdatePrice -> { }
+            is CreateListingAction.UpdateProductName -> { }
         }
     }
 }
