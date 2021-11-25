@@ -1,17 +1,19 @@
 package com.launchpad.mktfy_android.ui.screens.createListing
 
-import androidx.compose.ui.graphics.painter.Painter
-
 data class CreateListingViewState(
     val productName: String = "",
     val description: String = "",
-    val category: ProductCategory = ProductCategory.VEHICLES,
+    val category: ProductCategory? = null,
     val condition: ProductCondition = ProductCondition.USED,
     val price: String = "",
     val address: String = "",
     val city: City = City.CALGARY,
 
-    val photos: List<Photo> = listOf()
+    val photos: List<Photo> = listOf(),
+
+    val expandedCategoryMenu: Boolean = false,
+    val expandedConditionMenu: Boolean = false,
+    val expandedCityMenu: Boolean = false
 )
 
 data class Photo(

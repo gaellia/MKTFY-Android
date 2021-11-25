@@ -2,8 +2,11 @@ package com.launchpad.mktfy_android.ui.screens.createListing
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
@@ -17,6 +20,8 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -24,8 +29,8 @@ import coil.compose.rememberImagePainter
 import coil.size.OriginalSize
 import coil.size.Scale
 import com.launchpad.mktfy_android.R
+import com.launchpad.mktfy_android.models.PriceVisualTransformation
 import com.launchpad.mktfy_android.ui.components.Header
-import com.launchpad.mktfy_android.ui.screens.createAccount.CreateAccountAction
 import com.launchpad.mktfy_android.ui.theme.*
 
 
@@ -57,6 +62,7 @@ private fun CreateListingState(
 }
 
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun CreateListingContent(
     viewState: CreateListingViewState = CreateListingViewState(),
@@ -94,7 +100,7 @@ private fun CreateListingContent(
                         backgroundColor = LightGrayBackground,
                         contentColor = DarkerPurple
                     ),
-                    onClick = { },
+                    onClick = { /*TODO: Add a photo*/ },
                 ) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Icon(painter = painterResource(id = R.drawable.icon_camera),
@@ -126,7 +132,59 @@ private fun CreateListingContent(
                     contentDescription = null,
                     contentScale = ContentScale.FillWidth
                 )
-                Text(viewState.photos.first().id.toString())
+                // Picture Gallery minus the cover photo
+                LazyRow(modifier = Modifier
+                    .fillMaxWidth()
+                    .height(125.dp)
+                    .background(DarkGrayBackground)
+                ) {
+                    items(viewState.photos.drop(1)) {
+                        Image(modifier = Modifier
+                            .size(125.dp),
+                            painter = rememberImagePainter(
+                                data = it.photoPath,
+                                builder = {
+                                    size(OriginalSize)
+                                    scale(Scale.FIT)
+                                }
+                            ),
+                            contentDescription = null,
+                            contentScale = ContentScale.FillWidth
+                        )
+                    }
+                    item {
+                        OutlinedButton(
+                            modifier = Modifier
+                                .size(125.dp)
+                                .padding(12.dp)
+                                .size(102.dp),
+                            border = BorderStroke(1.dp, DarkerPurple),
+                            colors = ButtonDefaults.outlinedButtonColors(
+                                backgroundColor = LightGrayBackground,
+                                contentColor = DarkerPurple
+                            ),
+                            onClick = { /*TODO: Add a photo*/ },
+                        ) {
+                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                Icon(painter = painterResource(id = R.drawable.icon_camera),
+                                    contentDescription = null,
+                                    tint = DarkerPurple
+                                )
+                                Text(modifier = Modifier
+                                    .padding(top = 5.dp)
+                                    .requiredWidth(80.dp),
+                                    text = "Add a photo",
+                                    style = TextStyle.Default.copy(
+                                        fontFamily = openSansFamily,
+                                        fontWeight = FontWeight.Normal,
+                                        fontSize = 14.sp
+                                    ),
+                                    textAlign = TextAlign.Center
+                                )
+                            }
+                        }
+                    }
+                }
             }
 
             // Product Fields
@@ -149,7 +207,7 @@ private fun CreateListingContent(
                     .fillMaxWidth()
                     .padding(top = 6.dp)
                     .padding(horizontal = 15.dp)
-                    .background(Color.White),
+                    .background(Color.White, RoundedCornerShape(4.dp)),
                 value = viewState.productName,
                 onValueChange = { newProductName ->
                     actioner(
@@ -187,7 +245,7 @@ private fun CreateListingContent(
                     .height(158.dp)
                     .padding(top = 6.dp)
                     .padding(horizontal = 15.dp)
-                    .background(Color.White),
+                    .background(Color.White, RoundedCornerShape(4.dp)),
                 value = viewState.description,
                 onValueChange = { newDesc ->
                     actioner(
@@ -206,7 +264,6 @@ private fun CreateListingContent(
                 keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() })
             )
 
-            //TODO: Dropdown for Category
             Text(
                 modifier = Modifier
                     .padding(top = 20.dp)
@@ -220,27 +277,83 @@ private fun CreateListingContent(
                     color = BlackText
                 )
             )
-            OutlinedTextField(
+            ExposedDropdownMenuBox(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 10.dp)
                     .padding(horizontal = 15.dp)
-                    .background(Color.White),
-                value = viewState.category.category,
-                onValueChange = { },
-                singleLine = true,
-                textStyle = TextStyle.Default.copy(
-                    fontFamily = openSansFamily,
-                    fontSize = 14.sp
-                ),
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    textColor = Black,
-                    unfocusedBorderColor = GrayBorderColor
-                ),
-                keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() })
-            )
+                    .padding(top = 10.dp)
+                    .fillMaxWidth()
+                    .background(Color.White, RoundedCornerShape(4.dp)),
+                expanded = viewState.expandedCategoryMenu,
+                onExpandedChange = {
+                    actioner(CreateListingAction.ToggleCategoryMenu)
+                }
+            ) {
+                TextField(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .border(1.dp, GrayBorderColor, RoundedCornerShape(4.dp))
+                    ,
+                    readOnly = true,
+                    value = viewState.category?.category?:"",
+                    onValueChange = { },
+                    placeholder = {
+                        Text(
+                            text = "Select a category",
+                            style = MaterialTheme.typography.body1.copy(
+                                color = GrayText
+                            )
+                        )
+                    },
+                    trailingIcon = {
+                        ExposedDropdownMenuDefaults.TrailingIcon(
+                            expanded = viewState.expandedCategoryMenu
+                        )
+                    },
+                    colors = ExposedDropdownMenuDefaults.textFieldColors(
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        textColor = Black,
+                        trailingIconColor = LightPurple,
+                        focusedTrailingIconColor = LightPurple,
+                    ),
+                    shape = RoundedCornerShape(10.dp),
+                    textStyle = MaterialTheme.typography.body1
+                )
+                ExposedDropdownMenu(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color.White)
+                    ,
+                    expanded = viewState.expandedCategoryMenu,
+                    onDismissRequest = {
+                        actioner(CreateListingAction.ToggleCategoryMenu)
+                    }
+                ) {
+                    enumValues<ProductCategory>().forEach { selectionOption ->
+                        DropdownMenuItem(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(
+                                    if (viewState.category == selectionOption) SelectedGray else Color.White
+                                )
+                            ,
+                            onClick = {
+                                actioner(CreateListingAction.UpdateCategory(selectionOption))
+                                actioner(CreateListingAction.ToggleCategoryMenu)
+                            }
+                        ) {
+                            Text(modifier = Modifier
+                                .fillMaxWidth(),
+                                text = selectionOption.category,
+                                style = MaterialTheme.typography.body1.copy(
+                                    color = if (viewState.category == selectionOption) LightPurple else Color.Black
+                                )
+                            )
+                        }
+                    }
+                }
+            }
 
-            //TODO: Dropdown for Condition
             Text(
                 modifier = Modifier
                     .padding(top = 20.dp)
@@ -254,25 +367,74 @@ private fun CreateListingContent(
                     color = BlackText
                 )
             )
-            OutlinedTextField(
+            ExposedDropdownMenuBox(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 10.dp)
                     .padding(horizontal = 15.dp)
-                    .background(Color.White),
-                value = viewState.condition.condition,
-                onValueChange = { },
-                singleLine = true,
-                textStyle = TextStyle.Default.copy(
-                    fontFamily = openSansFamily,
-                    fontSize = 14.sp
-                ),
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    textColor = Black,
-                    unfocusedBorderColor = GrayBorderColor
-                ),
-                keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() })
-            )
+                    .padding(top = 10.dp)
+                    .fillMaxWidth()
+                    .background(Color.White, RoundedCornerShape(4.dp)),
+                expanded = viewState.expandedConditionMenu,
+                onExpandedChange = {
+                    actioner(CreateListingAction.ToggleConditionMenu)
+                }
+            ) {
+                TextField(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .border(1.dp, GrayBorderColor, RoundedCornerShape(4.dp))
+                    ,
+                    readOnly = true,
+                    value = viewState.condition.condition,
+                    onValueChange = { },
+                    trailingIcon = {
+                        ExposedDropdownMenuDefaults.TrailingIcon(
+                            expanded = viewState.expandedConditionMenu
+                        )
+                    },
+                    colors = ExposedDropdownMenuDefaults.textFieldColors(
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        textColor = Black,
+                        trailingIconColor = LightPurple,
+                        focusedTrailingIconColor = LightPurple,
+                    ),
+                    shape = RoundedCornerShape(10.dp),
+                    textStyle = MaterialTheme.typography.body1
+                )
+                ExposedDropdownMenu(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color.White)
+                    ,
+                    expanded = viewState.expandedConditionMenu,
+                    onDismissRequest = {
+                        actioner(CreateListingAction.ToggleConditionMenu)
+                    }
+                ) {
+                    enumValues<ProductCondition>().forEach { selectionOption ->
+                        DropdownMenuItem(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(
+                                    if (viewState.condition == selectionOption) SelectedGray else Color.White
+                                )
+                            ,
+                            onClick = {
+                                actioner(CreateListingAction.UpdateCondition(selectionOption))
+                                actioner(CreateListingAction.ToggleConditionMenu)
+                            }
+                        ) {
+                            Text(modifier = Modifier
+                                .fillMaxWidth(),
+                                text = selectionOption.condition,
+                                style = MaterialTheme.typography.body1.copy(
+                                    color = if (viewState.condition == selectionOption) LightPurple else Color.Black
+                                )
+                            )
+                        }
+                    }
+                }
+            }
 
             // TODO: Price Formatting
             Text(
@@ -293,7 +455,14 @@ private fun CreateListingContent(
                     .fillMaxWidth()
                     .padding(top = 10.dp)
                     .padding(horizontal = 15.dp)
-                    .background(Color.White),
+                    .background(Color.White, RoundedCornerShape(4.dp)),
+                placeholder = {
+                      Text(text = "Type the price",
+                        style = MaterialTheme.typography.body1.copy(
+                            color = GrayText
+                        )
+                      )
+                },
                 value = viewState.price,
                 onValueChange = { newPrice ->
                     actioner(CreateListingAction.UpdatePrice(newPrice))
@@ -307,7 +476,11 @@ private fun CreateListingContent(
                     textColor = Black,
                     unfocusedBorderColor = GrayBorderColor
                 ),
-                keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() })
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    keyboardType = KeyboardType.Number
+                ),
+                keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
+                visualTransformation = PriceVisualTransformation()
             )
 
             Text(
@@ -328,7 +501,7 @@ private fun CreateListingContent(
                     .fillMaxWidth()
                     .padding(top = 10.dp)
                     .padding(horizontal = 15.dp)
-                    .background(Color.White),
+                    .background(Color.White, RoundedCornerShape(4.dp)),
                 value = viewState.address,
                 onValueChange = { newAddress ->
                     actioner(CreateListingAction.UpdateAddress(newAddress))
@@ -345,7 +518,6 @@ private fun CreateListingContent(
                 keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() })
             )
 
-            //TODO: Dropdown for city
             Text(
                 modifier = Modifier
                     .padding(top = 20.dp)
@@ -359,27 +531,74 @@ private fun CreateListingContent(
                     color = BlackText
                 )
             )
-            OutlinedTextField(
+            ExposedDropdownMenuBox(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 10.dp)
                     .padding(horizontal = 15.dp)
-                    .background(Color.White),
-                value = viewState.city.city,
-                onValueChange = { newCity ->
-                    actioner(CreateListingAction.UpdatePrice(newCity))
-                },
-                singleLine = true,
-                textStyle = TextStyle.Default.copy(
-                    fontFamily = openSansFamily,
-                    fontSize = 14.sp
-                ),
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    textColor = Black,
-                    unfocusedBorderColor = GrayBorderColor
-                ),
-                keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() })
-            )
+                    .padding(top = 10.dp)
+                    .fillMaxWidth()
+                    .background(Color.White, RoundedCornerShape(4.dp)),
+                expanded = viewState.expandedCityMenu,
+                onExpandedChange = {
+                    actioner(CreateListingAction.ToggleCityMenu)
+                }
+            ) {
+                TextField(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .border(1.dp, GrayBorderColor, RoundedCornerShape(4.dp))
+                    ,
+                    readOnly = true,
+                    value = viewState.city.city,
+                    onValueChange = { },
+                    trailingIcon = {
+                        ExposedDropdownMenuDefaults.TrailingIcon(
+                            expanded = viewState.expandedCityMenu
+                        )
+                    },
+                    colors = ExposedDropdownMenuDefaults.textFieldColors(
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        textColor = Black,
+                        trailingIconColor = LightPurple,
+                        focusedTrailingIconColor = LightPurple,
+                    ),
+                    shape = RoundedCornerShape(10.dp),
+                    textStyle = MaterialTheme.typography.body1
+                )
+                ExposedDropdownMenu(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color.White)
+                    ,
+                    expanded = viewState.expandedCityMenu,
+                    onDismissRequest = {
+                        actioner(CreateListingAction.ToggleCityMenu)
+                    }
+                ) {
+                    enumValues<City>().forEach { selectionOption ->
+                        DropdownMenuItem(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(
+                                    if (viewState.city == selectionOption) SelectedGray else Color.White
+                                )
+                            ,
+                            onClick = {
+                                actioner(CreateListingAction.UpdateCity(selectionOption))
+                                actioner(CreateListingAction.ToggleCityMenu)
+                            }
+                        ) {
+                            Text(modifier = Modifier
+                                .fillMaxWidth(),
+                                text = selectionOption.city,
+                                style = MaterialTheme.typography.body1.copy(
+                                    color = if (viewState.city == selectionOption) LightPurple else Color.Black
+                                )
+                            )
+                        }
+                    }
+                }
+            }
 
             // Product Buttons
             Button(
@@ -444,7 +663,8 @@ private fun CreateListingPreviewNoPhotos() {
 private fun CreateListingPreviewPhotos() {
     CreateListingContent(viewState = CreateListingViewState(
         photos = listOf(
-            Photo(id = 0, photoPath = "https://www.londondrugs.com/on/demandware.static/-/Sites-londondrugs-master/default/dw98a2fe01/products/L6485676/large/L6485676.JPG")
+            Photo(id = 0, photoPath = "https://www.londondrugs.com/on/demandware.static/-/Sites-londondrugs-master/default/dw98a2fe01/products/L6485676/large/L6485676.JPG"),
+            Photo(id = 1, photoPath = "https://www.londondrugs.com/on/demandware.static/-/Sites-londondrugs-master/default/dw98a2fe01/products/L6485676/large/L6485676.JPG")
         )
     ))
 }
