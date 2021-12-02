@@ -20,6 +20,8 @@ import com.launchpad.mktfy_android.ui.screens.faq.Faq
 import com.launchpad.mktfy_android.ui.screens.forgotPassword.ForgotPassword
 import com.launchpad.mktfy_android.ui.screens.login.Login
 import com.launchpad.mktfy_android.ui.screens.menu.Menu
+import com.launchpad.mktfy_android.ui.screens.pp.PrivacyPolicy
+import com.launchpad.mktfy_android.ui.screens.tos.TermsOfService
 import com.launchpad.mktfy_android.ui.theme.MKTFY_AndroidTheme
 
 class MainActivity : ComponentActivity() {
@@ -65,8 +67,8 @@ fun MKTFYApp() {
                         navigateDash = {navController.navigate("dashboard"){
                             popUpTo("login")
                         } },
-                        navigateTOS = {},
-                        navigatePP = {}
+                        navigateTOS = {navController.navigate("termsOfService")},
+                        navigatePP = {navController.navigate("privacyPolicy")}
                     )
                 }
                 composable("dashboard") {
@@ -114,6 +116,21 @@ fun MKTFYApp() {
                 }
                 composable("createListing") {
                     CreateListing(
+                        navigateBack = {navController.popBackStack()}
+                    )
+                }
+                composable("createListing") {
+                    CreateListing(
+                        navigateBack = {navController.popBackStack()}
+                    )
+                }
+                composable("privacyPolicy") {
+                    PrivacyPolicy(
+                        navigateBack = {navController.popBackStack()}
+                    )
+                }
+                composable("termsOfService") {
+                    TermsOfService(
                         navigateBack = {navController.popBackStack()}
                     )
                 }

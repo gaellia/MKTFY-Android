@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "780940167373",
+    "project_id": "mktfy-android",
+    "storage_bucket": "mktfy-android.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:780940167373:android:412892804adb4b1227c184",
+        "android_client_info": {
+          "package_name": "com.launchpad.mktfy_android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "780940167373-3q8u6ovhr3isgauh7d2hp3s2pmsnoc9d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChAAh_nmqsGiXtixVvaYWQ0SK9eV2H9qU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "780940167373-3q8u6ovhr3isgauh7d2hp3s2pmsnoc9d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
