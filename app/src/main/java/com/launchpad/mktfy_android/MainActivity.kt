@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.launchpad.mktfy_android.navigation.AppNavigation
 import com.launchpad.mktfy_android.ui.screens.accountInformation.AccountInformation
 import com.launchpad.mktfy_android.ui.screens.changePassword.ChangePassword
 import com.launchpad.mktfy_android.ui.screens.createAccount.CreateAccount
@@ -42,100 +43,7 @@ fun MKTFYApp() {
     MKTFY_AndroidTheme() {
         Surface(color = MaterialTheme.colors.background) {
             val navController = rememberNavController()
-            NavHost(navController = navController, startDestination = "login") {
-                composable("login") {
-                    Login(
-                        navigateDash = {navController.navigate("dashboard"){
-                            popUpTo("login")
-                        } },
-                        navigateForgotPassword = {
-                            navController.navigate("forgotPassword") {
-                                restoreState = true
-                            }
-                         },
-                        navigateCreateAccount = {navController.navigate("createAccount")}
-                    )
-                }
-                composable("forgotPassword") {
-                    ForgotPassword(
-                        navigateBack = {navController.popBackStack()}
-                    )
-                }
-                composable("createAccount") {
-                    CreateAccount(
-                        navigateBack =  {navController.popBackStack()},
-                        navigateDash = {navController.navigate("dashboard"){
-                            popUpTo("login")
-                        } },
-                        navigateTOS = {navController.navigate("termsOfService")},
-                        navigatePP = {navController.navigate("privacyPolicy")}
-                    )
-                }
-                composable("dashboard") {
-                    Dashboard(
-                        navigateMenu = {
-                            navController.navigate("menu") {
-                                restoreState = true
-                            }
-                        },
-                        navigateProductDetail = {},
-                        navigateCreateListing = {navController.navigate("createListing")}
-                    )
-                }
-                composable("menu") {
-                    Menu(
-                        navigateAccountInfo = {navController.navigate("accountInformation")},
-                        navigateBack = {navController.popBackStack()},
-                        navigateChangePassword = {navController.navigate("changePassword")},
-                        navigateContactUs = {},
-                        navigateFAQ = {navController.navigate("faq")},
-                        navigateMyListings = {},
-                        navigateMyPurchases = {},
-                        navigateNotifications = {},
-                        navigateLogin = {
-                            navController.navigate("login") {
-                                popUpTo("login") {inclusive = true}
-                            }
-                        }
-                    )
-                }
-                composable("changePassword") {
-                    ChangePassword(
-                        navigateBack = {navController.popBackStack()}
-                    )
-                }
-                composable("accountInformation") {
-                    AccountInformation(
-                        navigateBack = {navController.popBackStack()}
-                    )
-                }
-                composable("faq") {
-                    Faq(
-                        navigateBack = {navController.popBackStack()}
-                    )
-                }
-                composable("createListing") {
-                    CreateListing(
-                        navigateBack = {navController.popBackStack()}
-                    )
-                }
-                composable("createListing") {
-                    CreateListing(
-                        navigateBack = {navController.popBackStack()}
-                    )
-                }
-                composable("privacyPolicy") {
-                    PrivacyPolicy(
-                        navigateBack = {navController.popBackStack()}
-                    )
-                }
-                composable("termsOfService") {
-                    TermsOfService(
-                        navigateBack = {navController.popBackStack()}
-                    )
-                }
-            }
-
+            AppNavigation(navController = navController)
         }
     }
 }
