@@ -1,5 +1,8 @@
 package com.launchpad.mktfy_android.ui.screens.createListing
 
+import com.launchpad.mktfy_android.models.City
+import com.launchpad.mktfy_android.models.Photo
+
 data class CreateListingViewState(
     val productName: String = "",
     val description: String = "",
@@ -16,11 +19,6 @@ data class CreateListingViewState(
     val expandedCityMenu: Boolean = false
 )
 
-data class Photo(
-    val id: Int,
-    val photoPath: String
-)
-
 enum class ProductCategory (val category: String){
     VEHICLES("Cars & Vehicles"),
     FURNITURE("Furniture"),
@@ -31,10 +29,4 @@ enum class ProductCategory (val category: String){
 enum class ProductCondition (val condition: String){
     USED("Used"),
     NEW("New")
-}
-
-enum class City (val city: String) {
-    CALGARY("Calgary"),
-    BROOKS("Brooks"),
-    CAMROSE("Camrose")
 }

@@ -2,6 +2,7 @@ package com.launchpad.mktfy_android.ui.screens.createListing
 
 import androidx.lifecycle.viewModelScope
 import com.launchpad.mktfy_android.core.ActionViewModel
+import com.launchpad.mktfy_android.models.City
 
 class CreateListingViewModel :
     ActionViewModel<CreateListingViewState, CreateListingAction>(CreateListingViewState()) {

@@ -1,5 +1,7 @@
 package com.launchpad.mktfy_android.ui.screens.createListing
 
+import com.launchpad.mktfy_android.models.City
+
 sealed class CreateListingAction {
     object NavigateBack: CreateListingAction()
 

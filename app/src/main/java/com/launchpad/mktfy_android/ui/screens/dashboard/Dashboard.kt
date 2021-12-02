@@ -1,6 +1,5 @@
 package com.launchpad.mktfy_android.ui.screens.dashboard
 
-import android.text.Layout
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
@@ -28,6 +27,8 @@ import com.launchpad.mktfy_android.ui.theme.*
 import coil.compose.rememberImagePainter
 import coil.size.OriginalSize
 import coil.size.Scale
+import com.launchpad.mktfy_android.models.Category
+import com.launchpad.mktfy_android.models.Listing
 import com.launchpad.mktfy_android.ui.components.StaggeredVerticalGrid
 
 

@@ -2,7 +2,7 @@ package com.launchpad.mktfy_android.ui.screens.dashboard
 
 import androidx.lifecycle.viewModelScope
 import com.launchpad.mktfy_android.core.ActionViewModel
-import kotlinx.coroutines.delay
+import com.launchpad.mktfy_android.models.Category
 import kotlinx.coroutines.launch
 
 class DashboardViewModel :
@@ -32,37 +32,37 @@ class DashboardViewModel :
         viewModelScope.launch {
             launchSetState { copy(
                 listings = listOf(
-                    Listing(
+                    com.launchpad.mktfy_android.models.Listing(
                         id = "123",
                         title = "Playstation 4",
                         price = 340.0,
                         imagePath = imagePath
                     ),
-                    Listing(
+                    com.launchpad.mktfy_android.models.Listing(
                         id = "124",
                         title = "Playstation 4",
                         price = 340.0,
                         imagePath = imagePath2
                     ),
-                    Listing(
+                    com.launchpad.mktfy_android.models.Listing(
                         id = "125",
                         title = "Playstation 4",
                         price = 340.0,
                         imagePath = imagePath2
                     ),
-                    Listing(
+                    com.launchpad.mktfy_android.models.Listing(
                         id = "126",
                         title = "Antique Chair",
                         price = 257.00,
                         imagePath = imagePath3
                     ),
-                    Listing(
+                    com.launchpad.mktfy_android.models.Listing(
                         id = "127",
                         title = "Playstation 4",
                         price = 340.0,
                         imagePath = imagePath2
                     ),
-                    Listing(
+                    com.launchpad.mktfy_android.models.Listing(
                         id = "128",
                         title = "Playstation 4",
                         price = 340.0,

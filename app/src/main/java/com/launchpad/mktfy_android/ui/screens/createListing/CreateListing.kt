@@ -29,6 +29,8 @@ import coil.compose.rememberImagePainter
 import coil.size.OriginalSize
 import coil.size.Scale
 import com.launchpad.mktfy_android.R
+import com.launchpad.mktfy_android.models.City
+import com.launchpad.mktfy_android.models.Photo
 import com.launchpad.mktfy_android.models.PriceVisualTransformation
 import com.launchpad.mktfy_android.ui.components.Header
 import com.launchpad.mktfy_android.ui.theme.*
