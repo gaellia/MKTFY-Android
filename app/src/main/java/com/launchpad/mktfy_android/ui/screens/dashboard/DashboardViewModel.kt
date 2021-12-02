@@ -2,7 +2,6 @@ package com.launchpad.mktfy_android.ui.screens.dashboard
 
 import androidx.lifecycle.viewModelScope
 import com.launchpad.mktfy_android.core.ActionViewModel
-import com.launchpad.mktfy_android.models.Category
 import kotlinx.coroutines.launch
 
 class DashboardViewModel :
@@ -34,37 +33,37 @@ class DashboardViewModel :
                 listings = listOf(
                     com.launchpad.mktfy_android.models.Listing(
                         id = "123",
-                        title = "Playstation 4",
+                        productName = "Playstation 4",
                         price = 340.0,
                         imagePath = imagePath
                     ),
                     com.launchpad.mktfy_android.models.Listing(
                         id = "124",
-                        title = "Playstation 4",
+                        productName = "Playstation 4",
                         price = 340.0,
                         imagePath = imagePath2
                     ),
                     com.launchpad.mktfy_android.models.Listing(
                         id = "125",
-                        title = "Playstation 4",
+                        productName = "Playstation 4",
                         price = 340.0,
                         imagePath = imagePath2
                     ),
                     com.launchpad.mktfy_android.models.Listing(
                         id = "126",
-                        title = "Antique Chair",
+                        productName = "Antique Chair",
                         price = 257.00,
                         imagePath = imagePath3
                     ),
                     com.launchpad.mktfy_android.models.Listing(
                         id = "127",
-                        title = "Playstation 4",
+                        productName = "Playstation 4",
                         price = 340.0,
                         imagePath = imagePath2
                     ),
                     com.launchpad.mktfy_android.models.Listing(
                         id = "128",
-                        title = "Playstation 4",
+                        productName = "Playstation 4",
                         price = 340.0,
                         imagePath = imagePath
                     )

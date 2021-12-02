@@ -29,9 +29,7 @@ import coil.compose.rememberImagePainter
 import coil.size.OriginalSize
 import coil.size.Scale
 import com.launchpad.mktfy_android.R
-import com.launchpad.mktfy_android.models.City
-import com.launchpad.mktfy_android.models.Photo
-import com.launchpad.mktfy_android.models.PriceVisualTransformation
+import com.launchpad.mktfy_android.models.*
 import com.launchpad.mktfy_android.ui.components.Header
 import com.launchpad.mktfy_android.ui.theme.*
 
@@ -331,7 +329,7 @@ private fun CreateListingContent(
                         actioner(CreateListingAction.ToggleCategoryMenu)
                     }
                 ) {
-                    enumValues<ProductCategory>().forEach { selectionOption ->
+                    enumValues<Category>().forEach { selectionOption ->
                         DropdownMenuItem(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -413,7 +411,7 @@ private fun CreateListingContent(
                         actioner(CreateListingAction.ToggleConditionMenu)
                     }
                 ) {
-                    enumValues<ProductCondition>().forEach { selectionOption ->
+                    enumValues<Condition>().forEach { selectionOption ->
                         DropdownMenuItem(
                             modifier = Modifier
                                 .fillMaxWidth()

@@ -27,7 +27,6 @@ import com.launchpad.mktfy_android.ui.theme.*
 import coil.compose.rememberImagePainter
 import coil.size.OriginalSize
 import coil.size.Scale
-import com.launchpad.mktfy_android.models.Category
 import com.launchpad.mktfy_android.models.Listing
 import com.launchpad.mktfy_android.ui.components.StaggeredVerticalGrid
 
@@ -310,7 +309,7 @@ fun Listing(
         )
         Text(modifier = Modifier
             .padding(start = 10.dp, top = 10.dp),
-            text = listing.title,
+            text = listing.productName,
             style = TextStyle.Default.copy(
                 fontFamily = openSansFamily,
                 fontWeight = FontWeight.Normal,

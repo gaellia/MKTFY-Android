@@ -17,6 +17,7 @@ import com.launchpad.mktfy_android.ui.screens.faq.Faq
 import com.launchpad.mktfy_android.ui.screens.forgotPassword.ForgotPassword
 import com.launchpad.mktfy_android.ui.screens.login.Login
 import com.launchpad.mktfy_android.ui.screens.menu.Menu
+import com.launchpad.mktfy_android.ui.screens.myPurchases.MyPurchases
 import com.launchpad.mktfy_android.ui.screens.pp.PrivacyPolicy
 import com.launchpad.mktfy_android.ui.screens.tos.TermsOfService
 
@@ -83,7 +84,7 @@ fun NavGraphBuilder.addLoginNavigation(navController: NavHostController){
                 navigateContactUs = {},
                 navigateFAQ = {navController.navigate(Destination.FAQ.route)},
                 navigateMyListings = {},
-                navigateMyPurchases = {},
+                navigateMyPurchases = {navController.navigate(Destination.MyPurchases.route)},
                 navigateNotifications = {},
                 navigateLogin = {
                     navController.navigate(Destination.Login.route) {
@@ -120,6 +121,14 @@ fun NavGraphBuilder.addLoginNavigation(navController: NavHostController){
         composable(Destination.TermsOfService.route) {
             TermsOfService(
                 navigateBack = {navController.popBackStack()}
+            )
+        }
+        composable(Destination.MyPurchases.route) {
+            MyPurchases(
+                navigateBack = {navController.popBackStack()},
+                navigatePickupInformation = { listingId ->
+                    navController.navigate(Destination.PickupInformation.sendRoute().format(listingId))
+                }
             )
         }
     }

@@ -1,6 +1,5 @@
 package com.launchpad.mktfy_android.ui.screens.dashboard
 
-import com.launchpad.mktfy_android.models.Category
 
 sealed class DashboardAction {
     object NavigateMenu: DashboardAction()

@@ -2,7 +2,9 @@ package com.launchpad.mktfy_android.ui.screens.createListing
 
 import androidx.lifecycle.viewModelScope
 import com.launchpad.mktfy_android.core.ActionViewModel
+import com.launchpad.mktfy_android.models.Category
 import com.launchpad.mktfy_android.models.City
+import com.launchpad.mktfy_android.models.Condition
 
 class CreateListingViewModel :
     ActionViewModel<CreateListingViewState, CreateListingAction>(CreateListingViewState()) {
@@ -39,7 +41,7 @@ class CreateListingViewModel :
         viewModelScope.launchSetState { copy(address = a) }
     }
 
-    private fun updateCategory(c: ProductCategory){
+    private fun updateCategory(c: Category){
         viewModelScope.launchSetState { copy(category = c) }
     }
 
@@ -47,7 +49,7 @@ class CreateListingViewModel :
         viewModelScope.launchSetState { copy(city = c) }
     }
 
-    private fun updateCondition(c: ProductCondition){
+    private fun updateCondition(c: Condition){
         viewModelScope.launchSetState { copy(condition = c) }
     }
 

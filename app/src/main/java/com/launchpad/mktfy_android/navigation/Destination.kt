@@ -15,4 +15,8 @@ sealed class Destination(val route: String){
     object CreateListing: Destination("createListing")
     object PrivacyPolicy: Destination("privacyPolicy")
     object TermsOfService: Destination("termsOfService")
+    object MyPurchases: Destination("myPurchases")
+    object PickupInformation: Destination("pickupInformation/{id}"){
+        override fun sendRoute() = "pickupInformation/%s"
+    }
 }
